@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"net/http"
 	"net/url"
 	"regexp"
@@ -24,6 +25,7 @@ type Nginxbeat struct {
 	events  publisher.Client
 
 	url    *url.URL
+	format string
 	period time.Duration
 }
 
@@ -47,6 +49,21 @@ func (nb *Nginxbeat) Config(b *beat.Beat) error {
 		return err
 	}
 
+	var f string
+	if nb.NbConfig.Input.Format != "" {
+		f = nb.NbConfig.Input.Format
+	} else {
+		f = "stub"
+	}
+	if f != "stub" && f != "json" {
+		err = fmt.Errorf("%s is an unsupported format", f)
+	}
+	if err != nil {
+		logp.Err("Invalid Nginx status format: %v", err)
+		return err
+	}
+	nb.format = f
+
 	if nb.NbConfig.Input.Period != nil {
 		nb.period = time.Duration(*nb.NbConfig.Input.Period) * time.Second
 	} else {
@@ -55,6 +72,7 @@ func (nb *Nginxbeat) Config(b *beat.Beat) error {
 
 	logp.Debug("nginxbeat", "Init nginxbeat")
 	logp.Debug("nginxbeat", "Watch %v\n", nb.url)
+	logp.Debug("nginxbeat", "Format %v\n", nb.format)
 	logp.Debug("nginxbeat", "Period %v\n", nb.period)
 
 	return nil
@@ -71,7 +89,9 @@ func (nb *Nginxbeat) Run(b *beat.Beat) error {
 	nb.isAlive = true
 
 	for nb.isAlive {
-		nb.exportStubStatus()
+		if nb.format == "stub" {
+			nb.exportStubStatus()
+		}
 
 		time.Sleep(nb.period)
 	}

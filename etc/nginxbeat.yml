@@ -5,6 +5,12 @@ input:
   # URL to Nginx status page.
   url: http://127.0.0.1:8080/status
 
+  # Format of the status page, either "stub" or "json".
+  # Use "stub" for Nginx stub status page.
+  # Use "json" for Nginx Plus status page.
+  # NOTE: Only "stub" is supported right now.
+  format: stub
+
   # In seconds, defines how often to read statistics.
   period: 10
 
