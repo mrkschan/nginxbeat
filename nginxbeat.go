@@ -90,9 +90,19 @@ func (nb *Nginxbeat) Run(b *beat.Beat) error {
 
 	for nb.isAlive {
 		if nb.format == "stub" {
-			nb.exportStubStatus()
+			s, err := nb.getStubStatus()
+			if err != nil {
+				logp.Err("Fail to read Nginx stub status: %v", err)
+				goto GotoNext
+			}
+			nb.events.PublishEvent(common.MapStr{
+				"timestamp": common.Time(time.Now()),
+				"type":      "nginx",
+				"nginx":     s,
+			})
 		}
 
+	GotoNext:
 		time.Sleep(nb.period)
 	}
 
@@ -109,16 +119,14 @@ func (nb *Nginxbeat) Stop() {
 	nb.isAlive = false
 }
 
-func (nb Nginxbeat) exportStubStatus() {
+func (nb Nginxbeat) getStubStatus() (map[string]int, error) {
 	res, err := http.Get(nb.url.String())
 	if err != nil {
-		logp.Err("Error reading Nginx stub status: %v", err)
-		return
+		return nil, err
 	}
 
 	if res.StatusCode != 200 {
-		logp.Err("Error reading Nginx stub status: HTTP%v", res.StatusCode)
-		return
+		return nil, fmt.Errorf("HTTP%s", res.Status)
 	}
 
 	// Nginx stub status sample:
@@ -135,7 +143,7 @@ func (nb Nginxbeat) exportStubStatus() {
 	re = regexp.MustCompile("Active connections: (\\d+)")
 	var active int
 	if matches := re.FindStringSubmatch(scanner.Text()); matches == nil {
-		logp.Err("Fail to parse active connections from Nginx stub status")
+		logp.Warn("Fail to parse active connections from Nginx stub status")
 		active = -1
 	} else {
 		active, _ = strconv.Atoi(matches[1])
@@ -153,7 +161,7 @@ func (nb Nginxbeat) exportStubStatus() {
 		requests int
 	)
 	if matches := re.FindStringSubmatch(scanner.Text()); matches == nil {
-		logp.Err("Fail to parse request status from Nginx stub status")
+		logp.Warn("Fail to parse request status from Nginx stub status")
 		accepts = -1
 		handled = -1
 		requests = -1
@@ -172,7 +180,7 @@ func (nb Nginxbeat) exportStubStatus() {
 		waiting int
 	)
 	if matches := re.FindStringSubmatch(scanner.Text()); matches == nil {
-		logp.Err("Fail to parse connection status from Nginx stub status")
+		logp.Warn("Fail to parse connection status from Nginx stub status")
 		reading = -1
 		writing = -1
 		waiting = -1
@@ -182,18 +190,13 @@ func (nb Nginxbeat) exportStubStatus() {
 		waiting, _ = strconv.Atoi(matches[3])
 	}
 
-	event := common.MapStr{
-		"timestamp": common.Time(time.Now()),
-		"type":      "nginx",
-		"nginx": common.MapStr{
-			"active":   active,
-			"accepts":  accepts,
-			"handled":  handled,
-			"requests": requests,
-			"reading":  reading,
-			"writing":  writing,
-			"waiting":  waiting,
-		},
-	}
-	nb.events.PublishEvent(event)
+	return map[string]int{
+		"active":   active,
+		"accepts":  accepts,
+		"handled":  handled,
+		"requests": requests,
+		"reading":  reading,
+		"writing":  writing,
+		"waiting":  waiting,
+	}, nil
 }
