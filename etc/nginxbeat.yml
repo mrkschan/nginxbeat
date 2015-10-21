@@ -2,8 +2,8 @@
 
 ############################# Input ############################################
 input:
-  # URL to Nginx monitoring page.
-  url: http://127.0.0.1/status
+  # URL to Nginx status page.
+  url: http://127.0.0.1:8080/status
 
   # In seconds, defines how often to read statistics.
   period: 10

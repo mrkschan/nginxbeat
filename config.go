@@ -1,8 +1,8 @@
 package main
 
 type NginxConfig struct {
-	// URL to Nginx monitoring page.
-	// Defaults to "http://127.0.0.1/status".
+	// URL to Nginx status page.
+	// Defaults to "http://127.0.0.1:8080/status".
 	URL string
 
 	// Period defines how often to read status in seconds.
