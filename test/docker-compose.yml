@@ -1,0 +1,10 @@
+elasticsearch-173:
+  image: elasticsearch:1.7.3
+  ports:
+    - "9200:9200"
+kibana-41:
+  image: kibana:4.1
+  ports:
+    - "5601:5601"
+  environment:
+    ELASTICSEARCH_URL: "http://172.17.42.1:9200"
