@@ -5,4 +5,4 @@ go:
 
 sudo: false
 
-script: go test ./...
+script: make test
