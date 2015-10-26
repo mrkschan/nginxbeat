@@ -58,7 +58,12 @@ nginx:
     - name: handled
       type: int
       description: >
-        The total number of handled connections.
+        The total number of handled client connections.
+
+    - name: dropped
+      type: int
+      description: >
+        The total number of dropped client connections.
 
     - name: requests
       type: int

@@ -158,16 +158,19 @@ func (nb Nginxbeat) getStubStatus() (map[string]int, error) {
 	var (
 		accepts  int
 		handled  int
+		dropped  int
 		requests int
 	)
 	if matches := re.FindStringSubmatch(scanner.Text()); matches == nil {
 		logp.Warn("Fail to parse request status from Nginx stub status")
 		accepts = -1
 		handled = -1
+		dropped = -1
 		requests = -1
 	} else {
 		accepts, _ = strconv.Atoi(matches[1])
 		handled, _ = strconv.Atoi(matches[2])
+		dropped = accepts - handled
 		requests, _ = strconv.Atoi(matches[3])
 	}
 
@@ -194,6 +197,7 @@ func (nb Nginxbeat) getStubStatus() (map[string]int, error) {
 		"active":   active,
 		"accepts":  accepts,
 		"handled":  handled,
+		"dropped":  dropped,
 		"requests": requests,
 		"reading":  reading,
 		"writing":  writing,
