@@ -70,6 +70,11 @@ nginx:
       description: >
         The total number of client requests.
 
+    - name: current
+      type: int
+      description: >
+        The current number of client requests.
+
     - name: reading
       type: int
       description: >

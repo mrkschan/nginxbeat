@@ -21,8 +21,9 @@ type Nginxbeat struct {
 	// NbConfig holds configurations of Nginxbeat parsed by libbeat.
 	NbConfig ConfigSettings
 
-	isAlive bool
-	events  publisher.Client
+	isAlive  bool
+	requests int
+	events   publisher.Client
 
 	url    *url.URL
 	format string
@@ -81,6 +82,8 @@ func (nb *Nginxbeat) Config(b *beat.Beat) error {
 // Setup Nginxbeat.
 func (nb *Nginxbeat) Setup(b *beat.Beat) error {
 	nb.events = b.Events
+	nb.requests = 0
+
 	return nil
 }
 
@@ -119,7 +122,7 @@ func (nb *Nginxbeat) Stop() {
 	nb.isAlive = false
 }
 
-func (nb Nginxbeat) getStubStatus() (map[string]int, error) {
+func (nb *Nginxbeat) getStubStatus() (map[string]int, error) {
 	res, err := http.Get(nb.url.String())
 	if err != nil {
 		return nil, err
@@ -160,6 +163,7 @@ func (nb Nginxbeat) getStubStatus() (map[string]int, error) {
 		handled  int
 		dropped  int
 		requests int
+		current  int
 	)
 	if matches := re.FindStringSubmatch(scanner.Text()); matches == nil {
 		logp.Warn("Fail to parse request status from Nginx stub status")
@@ -167,11 +171,16 @@ func (nb Nginxbeat) getStubStatus() (map[string]int, error) {
 		handled = -1
 		dropped = -1
 		requests = -1
+		current = -1
 	} else {
 		accepts, _ = strconv.Atoi(matches[1])
 		handled, _ = strconv.Atoi(matches[2])
-		dropped = accepts - handled
 		requests, _ = strconv.Atoi(matches[3])
+
+		dropped = accepts - handled
+		current = requests - nb.requests
+
+		nb.requests = requests
 	}
 
 	// Parse connection status.
@@ -199,6 +208,7 @@ func (nb Nginxbeat) getStubStatus() (map[string]int, error) {
 		"handled":  handled,
 		"dropped":  dropped,
 		"requests": requests,
+		"current":  current,
 		"reading":  reading,
 		"writing":  writing,
 		"waiting":  waiting,
