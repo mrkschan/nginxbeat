@@ -21,7 +21,7 @@ type Nginxbeat struct {
 	// NbConfig holds configurations of Nginxbeat parsed by libbeat.
 	NbConfig ConfigSettings
 
-	isAlive  bool
+	done     chan uint
 	requests int
 	events   publisher.Client
 
@@ -83,21 +83,34 @@ func (nb *Nginxbeat) Config(b *beat.Beat) error {
 func (nb *Nginxbeat) Setup(b *beat.Beat) error {
 	nb.events = b.Events
 	nb.requests = 0
+	nb.done = make(chan uint)
 
 	return nil
 }
 
 // Run Nginxbeat.
 func (nb *Nginxbeat) Run(b *beat.Beat) error {
-	nb.isAlive = true
+	logp.Debug("nginxbeat", "Run nginxbeat")
 
-	for nb.isAlive {
+	ticker := time.NewTicker(nb.period)
+	defer ticker.Stop()
+
+	for {
+		select {
+		case <-nb.done:
+			goto GotoFinish
+		case <-ticker.C:
+		}
+
+		start := time.Now()
+
 		if nb.format == "stub" {
 			s, err := nb.getStubStatus()
 			if err != nil {
 				logp.Err("Fail to read Nginx stub status: %v", err)
 				goto GotoNext
 			}
+
 			nb.events.PublishEvent(common.MapStr{
 				"timestamp": common.Time(time.Now()),
 				"type":      "nginx",
@@ -106,9 +119,14 @@ func (nb *Nginxbeat) Run(b *beat.Beat) error {
 		}
 
 	GotoNext:
-		time.Sleep(nb.period)
+		end := time.Now()
+		duration := end.Sub(start)
+		if duration.Nanoseconds() > nb.period.Nanoseconds() {
+			logp.Warn("Ignoring tick(s) due to processing taking longer than one period")
+		}
 	}
 
+GotoFinish:
 	return nil
 }
 
@@ -119,7 +137,8 @@ func (nb *Nginxbeat) Cleanup(b *beat.Beat) error {
 
 // Stop Nginxbeat.
 func (nb *Nginxbeat) Stop() {
-	nb.isAlive = false
+	logp.Debug("nginxbeat", "Stop nginxbeat")
+	close(nb.done)
 }
 
 func (nb *Nginxbeat) getStubStatus() (map[string]int, error) {
