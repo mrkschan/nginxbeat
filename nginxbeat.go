@@ -16,6 +16,8 @@ import (
 	"github.com/elastic/libbeat/publisher"
 )
 
+const selector = "nginxbeat"
+
 // Nginxbeat implements Beater interface and sends Nginx status using libbeat.
 type Nginxbeat struct {
 	// NbConfig holds configurations of Nginxbeat parsed by libbeat.
@@ -71,10 +73,10 @@ func (nb *Nginxbeat) Config(b *beat.Beat) error {
 		nb.period = 1 * time.Second
 	}
 
-	logp.Debug("nginxbeat", "Init nginxbeat")
-	logp.Debug("nginxbeat", "Watch %v\n", nb.url)
-	logp.Debug("nginxbeat", "Format %v\n", nb.format)
-	logp.Debug("nginxbeat", "Period %v\n", nb.period)
+	logp.Debug(selector, "Init nginxbeat")
+	logp.Debug(selector, "Watch %v", nb.url)
+	logp.Debug(selector, "Format %v", nb.format)
+	logp.Debug(selector, "Period %v", nb.period)
 
 	return nil
 }
@@ -90,7 +92,7 @@ func (nb *Nginxbeat) Setup(b *beat.Beat) error {
 
 // Run Nginxbeat.
 func (nb *Nginxbeat) Run(b *beat.Beat) error {
-	logp.Debug("nginxbeat", "Run nginxbeat")
+	logp.Debug(selector, "Run nginxbeat")
 
 	ticker := time.NewTicker(nb.period)
 	defer ticker.Stop()
@@ -137,7 +139,7 @@ func (nb *Nginxbeat) Cleanup(b *beat.Beat) error {
 
 // Stop Nginxbeat.
 func (nb *Nginxbeat) Stop() {
-	logp.Debug("nginxbeat", "Stop nginxbeat")
+	logp.Debug(selector, "Stop nginxbeat")
 	close(nb.done)
 }
 
