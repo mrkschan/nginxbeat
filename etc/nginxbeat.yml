@@ -21,6 +21,15 @@ input:
 # You can enable one or multiple outputs by setting enabled option to true.
 output:
 
+  ### Console as output
+  console:
+
+    # Enabling console output
+    enabled: true
+
+    # pretty print json event
+    pretty: false
+
   ### Elasticsearch as output
   elasticsearch:
 
