@@ -1,4 +1,4 @@
-package main
+package parser
 
 import (
 	"testing"
@@ -11,7 +11,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestGetStubStatus(t *testing.T) {
+func TestStubParser(t *testing.T) {
 	ts1 := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, "Active connections: 1")
 		fmt.Fprintln(w, "server accepts handled requests")
@@ -20,9 +20,9 @@ func TestGetStubStatus(t *testing.T) {
 	}))
 	defer ts1.Close()
 
+	p1 := &StubParser{}
 	u1, _ := url.Parse(ts1.URL)
-	nb1 := Nginxbeat{url: u1}
-	s1, _ := nb1.getStubStatus()
+	s1, _ := p1.Parse(u1.String())
 
 	assert.Equal(t, s1["active"], 1)
 	assert.Equal(t, s1["accepts"], 8)
@@ -42,9 +42,9 @@ func TestGetStubStatus(t *testing.T) {
 	}))
 	defer ts2.Close()
 
+	p2 := &StubParser{}
 	u2, _ := url.Parse(ts2.URL)
-	nb2 := Nginxbeat{url: u2}
-	s2, _ := nb2.getStubStatus()
+	s2, _ := p2.Parse(u2.String())
 
 	assert.Equal(t, s2["active"], -1)
 	assert.Equal(t, s2["accepts"], 8)
@@ -64,9 +64,9 @@ func TestGetStubStatus(t *testing.T) {
 	}))
 	defer ts3.Close()
 
+	p3 := &StubParser{}
 	u3, _ := url.Parse(ts3.URL)
-	nb3 := Nginxbeat{url: u3}
-	s3, _ := nb3.getStubStatus()
+	s3, _ := p3.Parse(u3.String())
 
 	assert.Equal(t, s3["active"], 1)
 	assert.Equal(t, s3["accepts"], -1)
@@ -86,9 +86,9 @@ func TestGetStubStatus(t *testing.T) {
 	}))
 	defer ts4.Close()
 
+	p4 := &StubParser{}
 	u4, _ := url.Parse(ts4.URL)
-	nb4 := Nginxbeat{url: u4}
-	s4, _ := nb4.getStubStatus()
+	s4, _ := p4.Parse(u4.String())
 
 	assert.Equal(t, s4["active"], 1)
 	assert.Equal(t, s4["accepts"], 8)
@@ -109,8 +109,7 @@ func TestGetStubStatus(t *testing.T) {
 	defer ts41.Close()
 
 	u41, _ := url.Parse(ts41.URL)
-	nb4.url = u41
-	s41, _ := nb4.getStubStatus()
+	s41, _ := p1.Parse(u41.String())
 
 	assert.Equal(t, s41["active"], 1)
 	assert.Equal(t, s41["accepts"], 8)
