@@ -23,6 +23,7 @@ func NewStubParser() Parser {
 // Parse Nginx stub status from given url.
 func (p *StubParser) Parse(url string) (map[string]int, error) {
 	res, err := http.Get(url)
+	defer res.Body.Close()
 	if err != nil {
 		return nil, err
 	}
@@ -38,7 +39,6 @@ func (p *StubParser) Parse(url string) (map[string]int, error) {
 	// Reading: 0 Writing: 1 Waiting: 0
 	var re *regexp.Regexp
 	scanner := bufio.NewScanner(res.Body)
-	defer res.Body.Close()
 
 	// Parse active connections.
 	scanner.Scan()
