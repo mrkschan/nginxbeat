@@ -7,8 +7,8 @@ Nginxbeat is the Beat used for Nginx monitoring. It is a lightweight agent that 
 
 ## Elasticsearch template
 
-To apply nginxbeat template:
+To apply nginxbeat template for Nginx stub status:
 
 ```
-curl -XPUT 'http://localhost:9200/_template/nginxbeat' -d@etc/nginxbeat.template.json
+curl -XPUT 'http://localhost:9200/_template/nginxbeat' -d@etc/nginxbeat-stub.template.json
 ```
