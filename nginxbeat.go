@@ -55,7 +55,7 @@ func (nb *Nginxbeat) Config(b *beat.Beat) error {
 	} else {
 		f = "stub"
 	}
-	if f != "stub" && f != "json" {
+	if f != "stub" && f != "plus" {
 		err = fmt.Errorf("%s is an unsupported format", f)
 	}
 	if err != nil {
@@ -94,6 +94,8 @@ func (nb *Nginxbeat) Run(b *beat.Beat) error {
 	switch nb.format {
 	case "stub":
 		p = parser.NewStubParser()
+	case "plus":
+		p = parser.NewPlusParser()
 	}
 
 	ticker := time.NewTicker(nb.period)

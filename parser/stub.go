@@ -21,7 +21,7 @@ func NewStubParser() Parser {
 }
 
 // Parse Nginx stub status from given url.
-func (p *StubParser) Parse(url string) (map[string]int, error) {
+func (p *StubParser) Parse(url string) (map[string]interface{}, error) {
 	res, err := http.Get(url)
 	defer res.Body.Close()
 	if err != nil {
@@ -101,7 +101,7 @@ func (p *StubParser) Parse(url string) (map[string]int, error) {
 		waiting, _ = strconv.Atoi(matches[3])
 	}
 
-	return map[string]int{
+	return map[string]interface{}{
 		"active":   active,
 		"accepts":  accepts,
 		"handled":  handled,
