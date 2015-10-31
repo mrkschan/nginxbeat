@@ -125,6 +125,15 @@ def fill_field_properties(field, defaults):
         properties[field.get("name")]["properties"] = \
             fill_section_properties(field, defaults)
 
+    elif field.get("type") == "nested":
+        properties[field.get("name")] = {
+            "type": "nested",
+            "properties": {}
+        }
+
+        properties[field.get("name")]["properties"] = \
+            fill_section_properties(field, defaults)
+
     elif field.get("ignore_above") == 0:
         properties[field["name"]] = {
             "type": field["type"],
