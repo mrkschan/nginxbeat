@@ -69,17 +69,17 @@ func TestPlusParser(t *testing.T) {
 	u1, _ := url.Parse(ts1.URL)
 	s1, _ := p1.Parse(u1.String())
 
-	assert.Equal(t, 6.0, s1["version"])
-	assert.Equal(t, 92676.0, s1["pid"])
+	assert.Equal(t, 6, s1["version"])
+	assert.Equal(t, 92676, s1["pid"])
 	assert.Equal(t, map[string]interface{}{
-		"accepted": 9202615.0,
-		"dropped":  0.0,
-		"active":   2.0,
-		"idle":     17.0,
+		"accepted": 9202615,
+		"dropped":  0,
+		"active":   2,
+		"idle":     17	,
 	}, s1["connections"])
 	assert.Equal(t, map[string]interface{}{
-		"total":   19310289.0,
-		"current": 2.0,
+		"total":   19310289,
+		"current": 2,
 	}, s1["requests"])
 	assert.NotNil(t, s1["server_zones"])
 	assert.NotNil(t, s1["upstreams"])
