@@ -20,6 +20,21 @@ curl -XPUT 'http://localhost:9200/_template/nginxbeat' -d@etc/nginxbeat-plus.tem
 ```
 
 
+# Build, Test, Run
+
+```
+# Build
+export GO15VENDOREXPERIMENT=1
+GOPATH=<your go path> make
+
+# Test
+GOPATH=<your go path> make test
+
+# Run
+./nginxbeat -c etc/nginxbeat.yml
+```
+
+
 ## Exported fields
 
 Nginxbeat only exports a single type of document. Though, the properties in the document varies according to the configured Nginx status page.
