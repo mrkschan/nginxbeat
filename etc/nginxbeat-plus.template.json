@@ -1,0 +1,113 @@
+{
+  "mappings": {
+    "_default_": {
+      "_all": {
+        "enabled": true,
+        "norms": {
+          "enabled": false
+        }
+      },
+      "dynamic_templates": [
+        {
+          "template1": {
+            "mapping": {
+              "doc_values": true,
+              "ignore_above": 1024,
+              "index": "not_analyzed",
+              "type": "{dynamic_type}"
+            },
+            "match": "*"
+          }
+        }
+      ],
+      "properties": {
+        "caches": {
+          "properties": {
+            "hit": {
+              "properties": {}
+            },
+            "miss": {
+              "properties": {}
+            },
+            "revalidated": {
+              "properties": {}
+            },
+            "stale": {
+              "properties": {}
+            },
+            "updating": {
+              "properties": {}
+            }
+          },
+          "type": "nested"
+        },
+        "connections": {
+          "properties": {}
+        },
+        "processes": {
+          "properties": {}
+        },
+        "requests": {
+          "properties": {}
+        },
+        "server_zones": {
+          "properties": {
+            "responses": {
+              "properties": {}
+            }
+          },
+          "type": "nested"
+        },
+        "ssl": {
+          "properties": {}
+        },
+        "stream": {
+          "properties": {
+            "server_zones": {
+              "properties": {},
+              "type": "nested"
+            },
+            "upstreams": {
+              "properties": {
+                "peers": {
+                  "properties": {
+                    "health_checks": {
+                      "properties": {}
+                    }
+                  }
+                }
+              },
+              "type": "nested"
+            }
+          },
+          "type": "nested"
+        },
+        "timestamp": {
+          "type": "date"
+        },
+        "upstreams": {
+          "properties": {
+            "peers": {
+              "properties": {
+                "health_checks": {
+                  "properties": {}
+                },
+                "responses": {
+                  "properties": {}
+                }
+              }
+            },
+            "queue": {
+              "properties": {}
+            }
+          },
+          "type": "nested"
+        }
+      }
+    }
+  },
+  "settings": {
+    "index.refresh_interval": "5s"
+  },
+  "template": "nginxbeat-*"
+}

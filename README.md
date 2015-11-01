@@ -12,3 +12,9 @@ To apply nginxbeat template for Nginx stub status:
 ```
 curl -XPUT 'http://localhost:9200/_template/nginxbeat' -d@etc/nginxbeat-stub.template.json
 ```
+
+To apply nginxbeat template for Nginx Plus status:
+
+```
+curl -XPUT 'http://localhost:9200/_template/nginxbeat' -d@etc/nginxbeat-plus.template.json
+```

@@ -1,12 +1,15 @@
 #!/usr/bin/env python
 
 """
-This script generates the ES template file (nginxbeat.template.json) from
-the etc/fields.yml file.
+This script generates the ES template file from the fields file.
 
 Example usage:
 
-   python generate_template.py etc/fields.yml etc/nginxbeat.template.json
+   python generate_template.py etc/stub-fields.yml etc/nginxbeat-stub.template.json
+
+   or
+
+   python generate_template.py etc/plus-fields.yml etc/nginxbeat-plus.template.json
 """
 
 import sys
