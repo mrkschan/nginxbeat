@@ -23,7 +23,7 @@ env:
 
     - name: type
       description: >
-        Set to "nginx" to specify that are Nginx statistics.
+        Set to "nginx" to specify that are Nginx status.
       required: true
 
     - name: count
@@ -43,7 +43,7 @@ env:
 nginx:
   type: group
   description: >
-    Contains Nginx statistics. Details that you can get by running the Nginx status page.
+    Contains Nginx status. Details that you can get by reading the Nginx Plus status page.
   fields:
     - name: version
       type: int
