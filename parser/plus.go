@@ -41,7 +41,86 @@ func (p *PlusParser) Parse(url string) (map[string]interface{}, error) {
 
 	// Convert float to int values.
 	status := ftoi(payload)
+	version := status["version"].(int)
 
+	// Convert 'server_zones' into nested data type instead of
+	// object data type with arbitrary keys.
+	if version >= 2 {
+		mapping := status["server_zones"].(map[string]interface{})
+		zones := make([]interface{}, len(mapping))
+		i := 0
+		for k, v := range mapping {
+			vt := v.(map[string]interface{})
+			vt["name"] = k
+			zones[i] = vt
+			i++
+		}
+		status["server_zones"] = zones
+	}
+
+	// Convert 'upstreams' into nested data type instead of
+	// object data type with arbitrary keys.
+	if version >= 4 {
+		mapping := status["upstreams"].(map[string]interface{})
+		upstreams := make([]interface{}, len(mapping))
+		i := 0
+		for k, v := range mapping {
+			vt := v.(map[string]interface{})
+			vt["name"] = k
+			upstreams[i] = vt
+			i++
+		}
+		status["upstreams"] = upstreams
+	}
+
+	// Convert 'caches' into nested data type instead of
+	// object data type with arbitrary keys.
+	if version >= 2 {
+		mapping := status["caches"].(map[string]interface{})
+		caches := make([]interface{}, len(mapping))
+		i := 0
+		for k, v := range mapping {
+			vt := v.(map[string]interface{})
+			vt["name"] = k
+			caches[i] = vt
+			i++
+		}
+		status["caches"] = caches
+	}
+
+	// Convert 'stream' into nested data type instead of
+	// object data type with arbitrary keys.
+	if version >= 5 {
+		var (
+			mapping map[string]interface{}
+			i       int
+		)
+		stream := status["stream"].(map[string]interface{})
+
+		mapping = stream["server_zones"].(map[string]interface{})
+		zones := make([]interface{}, len(mapping))
+		i = 0
+		for k, v := range mapping {
+			vt := v.(map[string]interface{})
+			vt["name"] = k
+			zones[i] = vt
+			i++
+		}
+		stream["server_zones"] = zones
+
+		mapping = stream["upstreams"].(map[string]interface{})
+		upstreams := make([]interface{}, len(mapping))
+		i = 0
+		for k, v := range mapping {
+			vt := v.(map[string]interface{})
+			vt["name"] = k
+			upstreams[i] = vt
+			i++
+		}
+		stream["upstreams"] = upstreams
+
+		status["stream"] = stream
+	}
 
 	return status, nil
 }

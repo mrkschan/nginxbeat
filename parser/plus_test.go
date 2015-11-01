@@ -59,6 +59,28 @@ func TestPlusParser(t *testing.T) {
 					"expired":{"responses":41769,"bytes":2293640551,"responses_written":40536,"bytes_written":2268891511},
 					"bypass":{"responses":55693,"bytes":2524371718,"responses_written":55677,"bytes_written":2524367270}
 				}
+			},
+			"stream":{"server_zones":{"postgresql_loadbalancer":{"processing":0,"connections":74117,"received":7782285,"sent":418250173}},
+					  "upstreams":{"postgresql_backends":{"peers":[
+					  	{"id":0,"server":"10.0.0.2:15432","backup":false,"weight":1,"state":"up",
+						 "active":0,"max_conns":42,"connections":24706,"connect_time":1,
+						 "first_byte_time":1,"response_time":1,"sent":2594130,"received":139418346,
+						 "fails":0,"unavail":0,"health_checks":{"checks":14892,"fails":0,"unhealthy":0,"last_passed":true},
+						 "downtime":0,"downstart":0,"selected":1446360135000
+						},
+						{"id":1,"server":"10.0.0.2:15433","backup":false,"weight":1,"state":"up",
+						 "active":0,"connections":24706,"connect_time":1,
+						 "first_byte_time":1,"response_time":1,"sent":2594130,"received":139418665,
+						 "fails":0,"unavail":0,"health_checks":{"checks":14892,"fails":0,"unhealthy":0,"last_passed":true},
+						 "downtime":0,"downstart":0,"selected":1446360136000
+						},
+						{"id":2,"server":"10.0.0.2:15434","backup":false,"weight":1,"state":"up",
+						 "active":0,"connections":24705,"connect_time":1,
+						 "first_byte_time":1,"response_time":1,"sent":2594025,"received":139413162,
+						 "fails":0,"unavail":0,"health_checks":{"checks":14892,"fails":0,"unhealthy":0,"last_passed":true},
+						 "downtime":0,"downstart":0,"selected":1446360134000
+						}
+					  ]}}
 			}
 		}`
 		fmt.Fprintln(w, payload)
@@ -82,6 +104,13 @@ func TestPlusParser(t *testing.T) {
 		"current": 2,
 	}, s1["requests"])
 	assert.NotNil(t, s1["server_zones"])
+	assert.IsType(t, []interface{}{}, s1["server_zones"])
 	assert.NotNil(t, s1["upstreams"])
+	assert.IsType(t, []interface{}{}, s1["upstreams"])
 	assert.NotNil(t, s1["caches"])
+	assert.IsType(t, []interface{}{}, s1["caches"])
+	assert.NotNil(t, s1["stream"])
+	stream1 := s1["stream"].(map[string]interface{})
+	assert.IsType(t, []interface{}{}, stream1["server_zones"])
+	assert.IsType(t, []interface{}{}, stream1["upstreams"])
 }
