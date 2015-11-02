@@ -242,7 +242,7 @@ nginx:
               - name: state
                 type: string
                 description: >
-                  Current state, which may be one of “up”, “draining”, “down”, “unavail”, or “unhealthy”.
+                  Current state, which may be one of "up", "draining", "down", "unavail", or "unhealthy".
 
               - name: active
                 type: int
@@ -310,7 +310,7 @@ nginx:
               - name: unavail
                 type: int
                 description: >
-                  How many times the server became unavailable for client requests (state “unavail”) due to the number of unsuccessful attempts reaching the max_fails threshold.
+                  How many times the server became unavailable for client requests (state "unavail") due to the number of unsuccessful attempts reaching the max_fails threshold.
 
               - name: health_checks
                 type: group
@@ -328,7 +328,7 @@ nginx:
                   - name: unhealthy
                     type: int
                     description: >
-                      How many times the server became unhealthy (state “unhealthy”).
+                      How many times the server became unhealthy (state "unhealthy").
 
                   - name: last_passed
                     type: int
@@ -338,12 +338,12 @@ nginx:
               - name: downtime
                 type: int
                 description: >
-                  Total time the server was in the “unavail” and “unhealthy” states.
+                  Total time the server was in the "unavail" and "unhealthy" states.
 
               - name: downstart
                 type: int
                 description: >
-                  The time (in milliseconds since Epoch) when the server became “unavail” or “unhealthy”.
+                  The time (in milliseconds since Epoch) when the server became "unavail" or "unhealthy".
 
               - name: selected
                 type: int
@@ -404,7 +404,7 @@ nginx:
         - name: cold
           type: boolean
           description: >
-            A boolean value indicating whether the “cache loader” process is still loading data from disk into the cache.
+            A boolean value indicating whether the "cache loader" process is still loading data from disk into the cache.
 
         - name: hit
           type: group
@@ -539,7 +539,7 @@ nginx:
                   - name: state
                     type: string
                     description: >
-                      Current state, which may be one of “up”, “draining”, “down”, “unavail”, or “unhealthy”.
+                      Current state, which may be one of "up", "draining", "down", "unavail", or "unhealthy".
 
                   - name: active
                     type: int
@@ -584,7 +584,7 @@ nginx:
                   - name: unavail
                     type: int
                     description: >
-                      How many times the server became unavailable for client requests (state “unavail”) due to the number of unsuccessful attempts reaching the max_fails threshold.
+                      How many times the server became unavailable for client requests (state "unavail") due to the number of unsuccessful attempts reaching the max_fails threshold.
 
                   - name: health_checks
                     type: group
@@ -602,7 +602,7 @@ nginx:
                       - name: unhealthy
                         type: int
                         description: >
-                          How many times the server became unhealthy (state “unhealthy”).
+                          How many times the server became unhealthy (state "unhealthy").
 
                       - name: last_passed
                         type: int
@@ -612,12 +612,12 @@ nginx:
                   - name: downtime
                     type: int
                     description: >
-                      Total time the server was in the “unavail” and “unhealthy” states.
+                      Total time the server was in the "unavail" and "unhealthy" states.
 
                   - name: downstart
                     type: int
                     description: >
-                      The time (in milliseconds since Epoch) when the server became “unavail” or “unhealthy”.
+                      The time (in milliseconds since Epoch) when the server became "unavail" or "unhealthy".
 
                   - name: selected
                     type: int

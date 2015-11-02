@@ -194,19 +194,678 @@ type: int
 The current number of client requests.
 
 
-==== server_zones
+=== server_zones fields
 
 type: nested
 
-==== upstreams
+
+==== name
+
+type: string
+
+The name of the status zone.
+
+
+==== processing
+
+type: int
+
+The number of client requests that are currently being processed.
+
+
+==== requests
+
+type: int
+
+The total number of client requests received from clients.
+
+
+=== responses fields
+
+
+==== total
+
+type: int
+
+The total number of responses sent to clients.
+
+
+==== 1xx
+
+type: int
+
+The number of responses with status codes 1xx.
+
+
+==== 2xx
+
+type: int
+
+The number of responses with status codes 2xx.
+
+
+==== 3xx
+
+type: int
+
+The number of responses with status codes 3xx.
+
+
+==== 4xx
+
+type: int
+
+The number of responses with status codes 4xx.
+
+
+==== 5xx
+
+type: int
+
+The number of responses with status codes 5xx.
+
+
+==== discarded
+
+type: int
+
+The total number of requests completed without sending a response.
+
+
+==== received
+
+type: int
+
+The total number of bytes received from clients.
+
+
+==== sent
+
+type: int
+
+The total number of bytes sent to clients.
+
+
+=== upstreams fields
 
 type: nested
 
-==== caches
+
+==== name
+
+type: string
+
+The name of the upstream group.
+
+
+=== peers fields
+
+
+==== id
+
+type: int
+
+The ID of the server.
+
+
+==== server
+
+type: string
+
+An address of the server.
+
+
+==== backup
+
+type: boolean
+
+A boolean value indicating whether the server is a backup server.
+
+
+==== weight
+
+type: int
+
+Weight of the server.
+
+
+==== state
+
+type: string
+
+Current state, which may be one of "up", "draining", "down", "unavail", or "unhealthy".
+
+
+==== active
+
+type: int
+
+The current number of active connections.
+
+
+==== max_conns
+
+type: int
+
+The max_conns limit for the server.
+
+
+==== requests
+
+type: int
+
+The total number of client requests forwarded to this server.
+
+
+=== responses fields
+
+
+==== total
+
+type: int
+
+The total number of responses obtained from this server.
+
+
+==== 1xx
+
+type: int
+
+The number of responses with status codes 1xx.
+
+
+==== 2xx
+
+type: int
+
+The number of responses with status codes 2xx.
+
+
+==== 3xx
+
+type: int
+
+The number of responses with status codes 3xx.
+
+
+==== 4xx
+
+type: int
+
+The number of responses with status codes 4xx.
+
+
+==== 5xx
+
+type: int
+
+The number of responses with status codes 5xx.
+
+
+==== sent
+
+type: int
+
+The total number of bytes sent to this server.
+
+
+==== received
+
+type: int
+
+The total number of bytes received from this server.
+
+
+==== fails
+
+type: int
+
+The total number of unsuccessful attempts to communicate with the server.
+
+
+==== unavail
+
+type: int
+
+How many times the server became unavailable for client requests (state "unavail") due to the number of unsuccessful attempts reaching the max_fails threshold.
+
+
+=== health_checks fields
+
+
+==== checks
+
+type: int
+
+The total number of health check requests made.
+
+
+==== fails
+
+type: int
+
+The number of failed health checks.
+
+
+==== unhealthy
+
+type: int
+
+How many times the server became unhealthy (state "unhealthy").
+
+
+==== last_passed
+
+type: int
+
+Boolean indicating if the last health check request was successful and passed tests.
+
+
+==== downtime
+
+type: int
+
+Total time the server was in the "unavail" and "unhealthy" states.
+
+
+==== downstart
+
+type: int
+
+The time (in milliseconds since Epoch) when the server became "unavail" or "unhealthy".
+
+
+==== selected
+
+type: int
+
+The time (in milliseconds since Epoch) when the server was last selected to process a request.
+
+
+==== header_time
+
+type: int
+
+The average time to get the response header from the server.
+
+
+==== response_time
+
+type: int
+
+The average time to get the full response from the server.
+
+
+==== keepalive
+
+type: int
+
+The current number of idle keepalive connections.
+
+
+=== queue fields
+
+
+==== size
+
+type: int
+
+The current number of requests in the queue.
+
+
+==== max_size
+
+type: int
+
+The maximum number of requests that can be in the queue at the same time.
+
+
+==== overflows
+
+type: int
+
+The total number of requests rejected due to the queue overflow.
+
+
+=== caches fields
 
 type: nested
 
-==== stream
+
+==== name
+
+type: string
+
+The name of the cache zone.
+
+
+==== size
+
+type: int
+
+The current size of the cache.
+
+
+==== max_size
+
+type: int
+
+The limit on the maximum size of the cache specified in the configuration.
+
+
+==== cold
+
+type: boolean
+
+A boolean value indicating whether the "cache loader" process is still loading data from disk into the cache.
+
+
+=== hit fields
+
+
+==== responses
+
+type: int
+
+The total number of responses read from the cache hit.
+
+
+==== bytes
+
+type: int
+
+The total number of bytes read from the cache.
+
+
+=== stale fields
+
+
+==== responses
+
+type: int
+
+The total number of responses read from the cache stale.
+
+
+==== bytes
+
+type: int
+
+The total number of bytes read from the cache.
+
+
+=== updating fields
+
+
+==== responses
+
+type: int
+
+The total number of responses read from the updating cache.
+
+
+==== bytes
+
+type: int
+
+The total number of bytes read from the cache.
+
+
+=== revalidated fields
+
+
+==== responses
+
+type: int
+
+The total number of responses read from the revalidated cache.
+
+
+==== bytes
+
+type: int
+
+The total number of bytes read from the cache.
+
+
+=== miss fields
+
+
+==== responses
+
+type: int
+
+The total number of responses not taken from the cache misses.
+
+
+==== bytes
+
+type: int
+
+The total number of bytes read from the proxied server.
+
+
+==== responses_written
+
+type: int
+
+The total number of responses written to the cache.
+
+
+==== bytes_written
+
+type: int
+
+The total number of bytes written to the cache.
+
+
+=== stream fields
 
 type: nested
+
+
+=== server_zones fields
+
+type: nested
+
+
+==== name
+
+type: string
+
+The name of the status zone.
+
+
+==== processing
+
+type: int
+
+The number of client requests that are currently being processed.
+
+
+==== connections
+
+type: int
+
+The total number of connections accepted from clients.
+
+
+==== received
+
+type: int
+
+The total number of bytes received from clients.
+
+
+==== sent
+
+type: int
+
+The total number of bytes sent to clients.
+
+
+=== upstreams fields
+
+type: nested
+
+
+==== name
+
+type: string
+
+The name of the upstream group.
+
+
+=== peers fields
+
+
+==== id
+
+type: int
+
+The ID of the server.
+
+
+==== server
+
+type: string
+
+An address of the server.
+
+
+==== backup
+
+type: boolean
+
+A boolean value indicating whether the server is a backup server.
+
+
+==== weight
+
+type: int
+
+Weight of the server.
+
+
+==== state
+
+type: string
+
+Current state, which may be one of "up", "draining", "down", "unavail", or "unhealthy".
+
+
+==== active
+
+type: int
+
+The current number of active connections.
+
+
+==== connections
+
+type: int
+
+The total number of client connections forwarded to this server.
+
+
+==== connect_time
+
+type: int
+
+The average time to connect to the upstream server.
+
+
+==== first_byte_time
+
+type: int
+
+The average time to receive the first byte of data.
+
+
+==== response_time
+
+type: int
+
+The average time to receive the last byte of data.
+
+
+==== sent
+
+type: int
+
+The total number of bytes sent to this server.
+
+
+==== received
+
+type: int
+
+The total number of bytes received from this server.
+
+
+==== fails
+
+type: int
+
+The total number of unsuccessful attempts to communicate with the server.
+
+
+==== unavail
+
+type: int
+
+How many times the server became unavailable for client requests (state "unavail") due to the number of unsuccessful attempts reaching the max_fails threshold.
+
+
+=== health_checks fields
+
+
+==== checks
+
+type: int
+
+The total number of health check requests made.
+
+
+==== fails
+
+type: int
+
+The number of failed health checks.
+
+
+==== unhealthy
+
+type: int
+
+How many times the server became unhealthy (state "unhealthy").
+
+
+==== last_passed
+
+type: int
+
+Boolean indicating if the last health check request was successful and passed tests.
+
+
+==== downtime
+
+type: int
+
+Total time the server was in the "unavail" and "unhealthy" states.
+
+
+==== downstart
+
+type: int
+
+The time (in milliseconds since Epoch) when the server became "unavail" or "unhealthy".
+
+
+==== selected
+
+type: int
+
+The time (in milliseconds since Epoch) when the server was last selected to process a request.
+
 
