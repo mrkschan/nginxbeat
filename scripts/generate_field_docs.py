@@ -21,13 +21,16 @@ def document_fields(output, section):
         output.write("[[exported-fields-{}]]\n".format(section["anchor"]))
     output.write("=== {} fields\n\n".format(section["name"]))
 
+    if "type" in section and section["type"] == "nested":
+        output.write("type: {}\n\n".format(section["type"]))
+
     if "description" in section:
         output.write("{}\n\n".format(section["description"]))
 
     output.write("\n")
     for field in section["fields"]:
 
-        if "type" in field and field["type"] == "group":
+        if "type" in field and field["type"] in ("group", "nested"):
             for sec, name in SECTIONS:
                 if sec == field["name"]:
                     field["anchor"] = field["name"]
@@ -85,6 +88,10 @@ following categories:
             section = docs[doc]
             if "type" in section:
                 if section["type"] == "group":
+                    section["name"] = name
+                    section["anchor"] = doc
+                    document_fields(output, section)
+                elif section["type"] == "nested":
                     section["name"] = name
                     section["anchor"] = doc
                     document_fields(output, section)
