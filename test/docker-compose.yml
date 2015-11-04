@@ -8,3 +8,9 @@ kibana-41:
     - "5601:5601"
   environment:
     ELASTICSEARCH_URL: "http://172.17.42.1:9200"
+nginx:
+    build: ./etc/nginx/
+    ports:
+        - "80:80"
+        - "443:443"
+        - "8080:8080"
