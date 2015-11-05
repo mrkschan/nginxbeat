@@ -19,10 +19,10 @@ func NewPlusParser() Parser {
 // Parse Nginx Plus status from given url.
 func (p *PlusParser) Parse(url string) (map[string]interface{}, error) {
 	res, err := http.Get(url)
-	defer res.Body.Close()
 	if err != nil {
 		return nil, err
 	}
+	defer res.Body.Close()
 
 	if res.StatusCode != 200 {
 		return nil, fmt.Errorf("HTTP%s", res.Status)

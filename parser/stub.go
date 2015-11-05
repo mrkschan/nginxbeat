@@ -23,10 +23,10 @@ func NewStubParser() Parser {
 // Parse Nginx stub status from given url.
 func (p *StubParser) Parse(url string) (map[string]interface{}, error) {
 	res, err := http.Get(url)
-	defer res.Body.Close()
 	if err != nil {
 		return nil, err
 	}
+	defer res.Body.Close()
 
 	if res.StatusCode != 200 {
 		return nil, fmt.Errorf("HTTP%s", res.Status)
