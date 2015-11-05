@@ -116,9 +116,9 @@ func (nb *Nginxbeat) Run(b *beat.Beat) error {
 			goto GotoNext
 		}
 		nb.events.PublishEvent(common.MapStr{
-			"timestamp": common.Time(time.Now()),
-			"type":      "nginx",
-			"nginx":     s,
+			"@@timestamp": common.Time(time.Now()),
+			"type":       "nginx",
+			"nginx":      s,
 		})
 
 	GotoNext:

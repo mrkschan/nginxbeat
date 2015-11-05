@@ -58,7 +58,7 @@ Nginxbeat only exports a single type of document. Though, the properties in the 
         "writing": 121
     },
     "shipper": "vm-nginxbeat",
-    "timestamp": "2015-11-01T14:25:42.776Z",
+    "@timestamp": "2015-11-01T14:25:42.776Z",
     "type": "nginx"
 }
 ```
@@ -507,7 +507,7 @@ Nginxbeat only exports a single type of document. Though, the properties in the 
         "version": 6
     },
     "shipper": "vm-nginxbeat",
-    "timestamp": "2015-11-01T14:15:06.166Z",
+    "@timestamp": "2015-11-01T14:15:06.166Z",
     "type": "nginx"
 }
 ```

@@ -21,6 +21,9 @@
         }
       ],
       "properties": {
+        "@timestamp": {
+          "type": "date"
+        },
         "caches": {
           "properties": {
             "hit": {
@@ -81,9 +84,6 @@
             }
           },
           "type": "nested"
-        },
-        "timestamp": {
-          "type": "date"
         },
         "upstreams": {
           "properties": {

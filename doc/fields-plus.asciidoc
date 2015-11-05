@@ -20,7 +20,7 @@ Contains common fields available in all event types.
 
 
 
-==== timestamp
+==== @timestamp
 
 type: date
 
