@@ -3,6 +3,7 @@
 ############################# Input ############################################
 input:
   # URL to Nginx status page.
+  # E.g. "http://127.0.0.1:8080/status", "http://demo.nginx.com/status"
   url: http://127.0.0.1:8080/status
 
   # Format of the status page, either "stub" or "plus".
