@@ -23,7 +23,7 @@ input:
 output:
 
   ### Console output
-  # console:
+  console:
     # Enabling console output
     enabled: true
 
