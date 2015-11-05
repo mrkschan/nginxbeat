@@ -1,7 +1,10 @@
 package main
 
 import (
+	"os"
+
 	"github.com/elastic/libbeat/beat"
+	"github.com/elastic/libbeat/logp"
 )
 
 var Version = "1.0.0-beta1"
@@ -15,7 +18,11 @@ func main() {
 	b.CommandLineSetup()
 
 	b.LoadConfig()
-	nb.Config(b)
+	err := nb.Config(b)
+	if err != nil {
+		logp.Critical("Config error: %v", err)
+		os.Exit(1)
+	}
 
 	b.Run()
 }
