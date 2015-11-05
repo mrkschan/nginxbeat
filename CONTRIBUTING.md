@@ -1,7 +1,8 @@
 # Contributing to Nginxbeat
 
-We try to follow the [Golang coding standards](https://github.com/golang/go/wiki/CodeReviewComments) as close as possible.
-Make sure to run `go fmt`, `go vet`, `goimports`, `golint` before you push your code.
+We try to follow the [Golang coding standards](https://github.com/golang/go/wiki/CodeReviewComments) as close as possible. And, we also follow [the seven rules of a great git commit message](http://chris.beams.io/posts/git-commit/).
+
+Anyway, make sure to run `go fmt`, `go vet`, `goimports`, `golint` before you push your code.
 
 
 ## Dependency Management
