@@ -12,6 +12,7 @@ input:
   format: stub
 
   # In seconds, defines how often to read statistics.
+  # Defaults to 10s.
   period: 10
 
 

@@ -67,7 +67,7 @@ func (nb *Nginxbeat) Config(b *beat.Beat) error {
 	if nb.NbConfig.Input.Period != nil {
 		nb.period = time.Duration(*nb.NbConfig.Input.Period) * time.Second
 	} else {
-		nb.period = 1 * time.Second
+		nb.period = 10 * time.Second
 	}
 
 	logp.Debug(selector, "Init nginxbeat")
