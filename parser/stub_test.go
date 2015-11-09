@@ -22,7 +22,7 @@ func TestStubParser(t *testing.T) {
 
 	p1 := &StubParser{}
 	u1, _ := url.Parse(ts1.URL)
-	s1, _ := p1.Parse(u1.String())
+	s1, _ := p1.Parse(*u1)
 
 	assert.Equal(t, s1["active"], 1)
 	assert.Equal(t, s1["accepts"], 8)
@@ -44,7 +44,7 @@ func TestStubParser(t *testing.T) {
 
 	p2 := &StubParser{}
 	u2, _ := url.Parse(ts2.URL)
-	s2, _ := p2.Parse(u2.String())
+	s2, _ := p2.Parse(*u2)
 
 	assert.Equal(t, s2["active"], -1)
 	assert.Equal(t, s2["accepts"], 8)
@@ -66,7 +66,7 @@ func TestStubParser(t *testing.T) {
 
 	p3 := &StubParser{}
 	u3, _ := url.Parse(ts3.URL)
-	s3, _ := p3.Parse(u3.String())
+	s3, _ := p3.Parse(*u3)
 
 	assert.Equal(t, s3["active"], 1)
 	assert.Equal(t, s3["accepts"], -1)
@@ -88,7 +88,7 @@ func TestStubParser(t *testing.T) {
 
 	p4 := &StubParser{}
 	u4, _ := url.Parse(ts4.URL)
-	s4, _ := p4.Parse(u4.String())
+	s4, _ := p4.Parse(*u4)
 
 	assert.Equal(t, s4["active"], 1)
 	assert.Equal(t, s4["accepts"], 8)
@@ -109,7 +109,7 @@ func TestStubParser(t *testing.T) {
 	defer ts41.Close()
 
 	u41, _ := url.Parse(ts41.URL)
-	s41, _ := p1.Parse(u41.String())
+	s41, _ := p1.Parse(*u41)
 
 	assert.Equal(t, s41["active"], 1)
 	assert.Equal(t, s41["accepts"], 8)

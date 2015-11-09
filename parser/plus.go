@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"net/url"
 )
 
 // PlusParser is a Parser that parse Nginx Plus status page.
@@ -17,8 +18,8 @@ func NewPlusParser() Parser {
 }
 
 // Parse Nginx Plus status from given url.
-func (p *PlusParser) Parse(url string) (map[string]interface{}, error) {
-	res, err := http.Get(url)
+func (p *PlusParser) Parse(u url.URL) (map[string]interface{}, error) {
+	res, err := http.Get(u.String())
 	if err != nil {
 		return nil, err
 	}

@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"net/http"
+	"net/url"
 	"regexp"
 	"strconv"
 
@@ -21,8 +22,8 @@ func NewStubParser() Parser {
 }
 
 // Parse Nginx stub status from given url.
-func (p *StubParser) Parse(url string) (map[string]interface{}, error) {
-	res, err := http.Get(url)
+func (p *StubParser) Parse(u url.URL) (map[string]interface{}, error) {
+	res, err := http.Get(u.String())
 	if err != nil {
 		return nil, err
 	}

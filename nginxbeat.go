@@ -110,7 +110,7 @@ func (nb *Nginxbeat) Run(b *beat.Beat) error {
 
 		start := time.Now()
 
-		s, err := p.Parse(nb.url.String())
+		s, err := p.Parse(*nb.url)
 		if err != nil {
 			logp.Err("Fail to read Nginx status: %v", err)
 			goto GotoNext

@@ -89,7 +89,7 @@ func TestPlusParser(t *testing.T) {
 
 	p1 := &PlusParser{}
 	u1, _ := url.Parse(ts1.URL)
-	s1, _ := p1.Parse(u1.String())
+	s1, _ := p1.Parse(*u1)
 
 	assert.Equal(t, 6, s1["version"])
 	assert.Equal(t, 92676, s1["pid"])
@@ -97,7 +97,7 @@ func TestPlusParser(t *testing.T) {
 		"accepted": 9202615,
 		"dropped":  0,
 		"active":   2,
-		"idle":     17	,
+		"idle":     17,
 	}, s1["connections"])
 	assert.Equal(t, map[string]interface{}{
 		"total":   19310289,
