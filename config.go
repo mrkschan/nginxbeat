@@ -1,9 +1,9 @@
 package main
 
 type NginxConfig struct {
-	// URL to Nginx status page.
-	// Defaults to "http://127.0.0.1:8080/status".
-	URL string
+	// URLs to Nginx status page.
+	// Defaults to []string{"http://127.0.0.1/status"}.
+	URLs []string
 	// Format of the status page, either "stub" or "plus".
 	// Use "stub" for Nginx stub status page.
 	// # Use "plus" for Nginx Plus status JSON document.

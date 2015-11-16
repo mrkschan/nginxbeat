@@ -24,7 +24,7 @@ type Nginxbeat struct {
 	done   chan uint
 	events publisher.Client
 
-	url    *url.URL
+	urls   []*url.URL
 	format string
 	period time.Duration
 }
@@ -37,16 +37,21 @@ func (nb *Nginxbeat) Config(b *beat.Beat) error {
 		return err
 	}
 
-	var u string
-	if nb.NbConfig.Input.URL != "" {
-		u = nb.NbConfig.Input.URL
+	var urlConfig []string
+	if nb.NbConfig.Input.URLs != nil {
+		urlConfig = nb.NbConfig.Input.URLs
 	} else {
-		u = "http://127.0.0.1/status"
+		urlConfig = []string{"http://127.0.0.1/status"}
 	}
-	nb.url, err = url.Parse(u)
-	if err != nil {
-		logp.Err("Invalid Nginx status page: %v", err)
-		return err
+
+	nb.urls = make([]*url.URL, len(urlConfig))
+	for i := 0; i < len(urlConfig); i++ {
+		u, err := url.Parse(urlConfig[i])
+		if err != nil {
+			logp.Err("Invalid Nginx status page: %v", err)
+			return err
+		}
+		nb.urls[i] = u
 	}
 
 	var f string
@@ -71,7 +76,7 @@ func (nb *Nginxbeat) Config(b *beat.Beat) error {
 	}
 
 	logp.Debug(selector, "Init nginxbeat")
-	logp.Debug(selector, "Watch %v", nb.url)
+	logp.Debug(selector, "Watch %v", nb.urls)
 	logp.Debug(selector, "Format %v", nb.format)
 	logp.Debug(selector, "Period %v", nb.period)
 
@@ -90,46 +95,52 @@ func (nb *Nginxbeat) Setup(b *beat.Beat) error {
 func (nb *Nginxbeat) Run(b *beat.Beat) error {
 	logp.Debug(selector, "Run nginxbeat")
 
-	var p parser.Parser
-	switch nb.format {
-	case "stub":
-		p = parser.NewStubParser()
-	case "plus":
-		p = parser.NewPlusParser()
+	for _, u := range nb.urls {
+		go func() {
+			var p parser.Parser
+			switch nb.format {
+			case "stub":
+				p = parser.NewStubParser()
+			case "plus":
+				p = parser.NewPlusParser()
+			}
+
+			ticker := time.NewTicker(nb.period)
+			defer ticker.Stop()
+
+			for {
+				select {
+				case <-nb.done:
+					goto GotoFinish
+				case <-ticker.C:
+				}
+
+				start := time.Now()
+
+				s, err := p.Parse(*u)
+				if err != nil {
+					logp.Err("Fail to read Nginx status: %v", err)
+					goto GotoNext
+				}
+				nb.events.PublishEvent(common.MapStr{
+					"@timestamp": common.Time(time.Now()),
+					"type":       "nginx",
+					"nginx":      s,
+				})
+
+			GotoNext:
+				end := time.Now()
+				duration := end.Sub(start)
+				if duration.Nanoseconds() > nb.period.Nanoseconds() {
+					logp.Warn("Ignoring tick(s) due to processing taking longer than one period")
+				}
+			}
+
+		GotoFinish:
+		}()
 	}
 
-	ticker := time.NewTicker(nb.period)
-	defer ticker.Stop()
-
-	for {
-		select {
-		case <-nb.done:
-			goto GotoFinish
-		case <-ticker.C:
-		}
-
-		start := time.Now()
-
-		s, err := p.Parse(*nb.url)
-		if err != nil {
-			logp.Err("Fail to read Nginx status: %v", err)
-			goto GotoNext
-		}
-		nb.events.PublishEvent(common.MapStr{
-			"@timestamp": common.Time(time.Now()),
-			"type":       "nginx",
-			"nginx":      s,
-		})
-
-	GotoNext:
-		end := time.Now()
-		duration := end.Sub(start)
-		if duration.Nanoseconds() > nb.period.Nanoseconds() {
-			logp.Warn("Ignoring tick(s) due to processing taking longer than one period")
-		}
-	}
-
-GotoFinish:
+	<-nb.done
 	return nil
 }
 
