@@ -8,7 +8,6 @@ import (
 	"github.com/elastic/libbeat/beat"
 	"github.com/elastic/libbeat/cfgfile"
 	"github.com/elastic/libbeat/logp"
-	lbpublisher "github.com/elastic/libbeat/publisher"
 
 	"github.com/mrkschan/nginxbeat/collector"
 	"github.com/mrkschan/nginxbeat/publisher"
@@ -21,8 +20,7 @@ type Nginxbeat struct {
 	// NbConfig holds configurations of Nginxbeat parsed by libbeat.
 	NbConfig ConfigSettings
 
-	done   chan uint
-	events lbpublisher.Client
+	done chan uint
 
 	urls   []*url.URL
 	format string
@@ -85,7 +83,6 @@ func (nb *Nginxbeat) Config(b *beat.Beat) error {
 
 // Setup Nginxbeat.
 func (nb *Nginxbeat) Setup(b *beat.Beat) error {
-	nb.events = b.Events
 	nb.done = make(chan uint)
 
 	return nil
@@ -103,10 +100,10 @@ func (nb *Nginxbeat) Run(b *beat.Beat) error {
 			switch nb.format {
 			case "stub":
 				c = collector.NewStubCollector()
-				p = publisher.NewStubPublisher(nb.events)
+				p = publisher.NewStubPublisher(b.Events)
 			case "plus":
 				c = collector.NewPlusCollector()
-				p = publisher.NewPlusPublisher(nb.events)
+				p = publisher.NewPlusPublisher(b.Events)
 			}
 
 			ticker := time.NewTicker(nb.period)
