@@ -1,4 +1,4 @@
-package parser
+package collector
 
 import (
 	"bufio"
@@ -11,18 +11,18 @@ import (
 	"github.com/elastic/libbeat/logp"
 )
 
-// StubParser is a Parser that parse Nginx stub status page.
-type StubParser struct {
+// StubCollector is a Collector that collects Nginx stub status page.
+type StubCollector struct {
 	requests int
 }
 
-// NewStubParser constructs a new StubParser.
-func NewStubParser() Parser {
-	return &StubParser{requests: 0}
+// NewStubCollector constructs a new StubCollector.
+func NewStubCollector() Collector {
+	return &StubCollector{requests: 0}
 }
 
-// Parse Nginx stub status from given url.
-func (p *StubParser) Parse(u url.URL) (map[string]interface{}, error) {
+// Collect Nginx stub status from given url.
+func (c *StubCollector) Collect(u url.URL) (map[string]interface{}, error) {
 	res, err := http.Get(u.String())
 	if err != nil {
 		return nil, err
@@ -78,9 +78,9 @@ func (p *StubParser) Parse(u url.URL) (map[string]interface{}, error) {
 		requests, _ = strconv.Atoi(matches[3])
 
 		dropped = accepts - handled
-		current = requests - p.requests
+		current = requests - c.requests
 
-		p.requests = requests
+		c.requests = requests
 	}
 
 	// Parse connection status.

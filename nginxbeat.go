@@ -11,7 +11,7 @@ import (
 	"github.com/elastic/libbeat/logp"
 	"github.com/elastic/libbeat/publisher"
 
-	"github.com/mrkschan/nginxbeat/parser"
+	"github.com/mrkschan/nginxbeat/collector"
 )
 
 const selector = "nginxbeat"
@@ -97,12 +97,13 @@ func (nb *Nginxbeat) Run(b *beat.Beat) error {
 
 	for _, u := range nb.urls {
 		go func() {
-			var p parser.Parser
+			var c collector.Collector
+
 			switch nb.format {
 			case "stub":
-				p = parser.NewStubParser()
+				c = collector.NewStubCollector()
 			case "plus":
-				p = parser.NewPlusParser()
+				c = collector.NewPlusCollector()
 			}
 
 			ticker := time.NewTicker(nb.period)
@@ -117,7 +118,7 @@ func (nb *Nginxbeat) Run(b *beat.Beat) error {
 
 				start := time.Now()
 
-				s, err := p.Parse(*u)
+				s, err := c.Collect(*u)
 				if err != nil {
 					logp.Err("Fail to read Nginx status: %v", err)
 					goto GotoNext

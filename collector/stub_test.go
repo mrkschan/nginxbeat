@@ -1,4 +1,4 @@
-package parser
+package collector
 
 import (
 	"testing"
@@ -11,7 +11,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestStubParser(t *testing.T) {
+func TestStubCollector(t *testing.T) {
 	ts1 := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, "Active connections: 1")
 		fmt.Fprintln(w, "server accepts handled requests")
@@ -20,9 +20,9 @@ func TestStubParser(t *testing.T) {
 	}))
 	defer ts1.Close()
 
-	p1 := &StubParser{}
+	c1 := &StubCollector{}
 	u1, _ := url.Parse(ts1.URL)
-	s1, _ := p1.Parse(*u1)
+	s1, _ := c1.Collect(*u1)
 
 	assert.Equal(t, s1["active"], 1)
 	assert.Equal(t, s1["accepts"], 8)
@@ -42,9 +42,9 @@ func TestStubParser(t *testing.T) {
 	}))
 	defer ts2.Close()
 
-	p2 := &StubParser{}
+	c2 := &StubCollector{}
 	u2, _ := url.Parse(ts2.URL)
-	s2, _ := p2.Parse(*u2)
+	s2, _ := c2.Collect(*u2)
 
 	assert.Equal(t, s2["active"], -1)
 	assert.Equal(t, s2["accepts"], 8)
@@ -64,9 +64,9 @@ func TestStubParser(t *testing.T) {
 	}))
 	defer ts3.Close()
 
-	p3 := &StubParser{}
+	c3 := &StubCollector{}
 	u3, _ := url.Parse(ts3.URL)
-	s3, _ := p3.Parse(*u3)
+	s3, _ := c3.Collect(*u3)
 
 	assert.Equal(t, s3["active"], 1)
 	assert.Equal(t, s3["accepts"], -1)
@@ -86,9 +86,9 @@ func TestStubParser(t *testing.T) {
 	}))
 	defer ts4.Close()
 
-	p4 := &StubParser{}
+	c4 := &StubCollector{}
 	u4, _ := url.Parse(ts4.URL)
-	s4, _ := p4.Parse(*u4)
+	s4, _ := c4.Collect(*u4)
 
 	assert.Equal(t, s4["active"], 1)
 	assert.Equal(t, s4["accepts"], 8)
@@ -109,7 +109,7 @@ func TestStubParser(t *testing.T) {
 	defer ts41.Close()
 
 	u41, _ := url.Parse(ts41.URL)
-	s41, _ := p1.Parse(*u41)
+	s41, _ := c4.Collect(*u41)
 
 	assert.Equal(t, s41["active"], 1)
 	assert.Equal(t, s41["accepts"], 8)

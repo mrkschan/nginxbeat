@@ -1,4 +1,4 @@
-package parser
+package collector
 
 import (
 	"testing"
@@ -11,7 +11,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestPlusParser(t *testing.T) {
+func TestPlusCollector(t *testing.T) {
 	ts1 := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		payload := `{
 			"version":6,
@@ -87,9 +87,9 @@ func TestPlusParser(t *testing.T) {
 	}))
 	defer ts1.Close()
 
-	p1 := &PlusParser{}
+	c1 := &PlusCollector{}
 	u1, _ := url.Parse(ts1.URL)
-	s1, _ := p1.Parse(*u1)
+	s1, _ := c1.Collect(*u1)
 
 	assert.Equal(t, 6, s1["version"])
 	assert.Equal(t, 92676, s1["pid"])
