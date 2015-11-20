@@ -31,15 +31,17 @@ func (p *PlusPublisher) Publish(s map[string]interface{}) {
 	stream := s["stream"]
 	delete(s, "stream")
 
+	now := common.Time(time.Now())
+
 	p.client.PublishEvent(common.MapStr{
-		"@timestamp": common.Time(time.Now()),
+		"@timestamp": now,
 		"type":       "nginx",
 		"nginx":      s,
 	})
 
 	for _, i := range zones {
 		p.client.PublishEvent(common.MapStr{
-			"@timestamp": common.Time(time.Now()),
+			"@timestamp": now,
 			"type":       "zone",
 			"zone":       i,
 		})
@@ -47,7 +49,7 @@ func (p *PlusPublisher) Publish(s map[string]interface{}) {
 
 	for _, i := range upstreams {
 		p.client.PublishEvent(common.MapStr{
-			"@timestamp": common.Time(time.Now()),
+			"@timestamp": now,
 			"type":       "upstream",
 			"upstream":   i,
 		})
@@ -55,14 +57,14 @@ func (p *PlusPublisher) Publish(s map[string]interface{}) {
 
 	for _, i := range caches {
 		p.client.PublishEvent(common.MapStr{
-			"@timestamp": common.Time(time.Now()),
+			"@timestamp": now,
 			"type":       "cache",
 			"cache":      i,
 		})
 	}
 
 	p.client.PublishEvent(common.MapStr{
-		"@timestamp": common.Time(time.Now()),
+		"@timestamp": now,
 		"type":       "stream",
 		"stream":     stream,
 	})
