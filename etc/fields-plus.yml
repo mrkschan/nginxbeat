@@ -27,7 +27,8 @@ env:
         Set to "zone" to specify that are Nginx server zone status.
         Set to "upstream" to specify that are Nginx upstream group status.
         Set to "cache" to specify that are Nginx cache zone status.
-        Set to "stream" to specify that are Nginx stream status.
+        Set to "tcpupstream" to specify that are Nginx TCP upstream status.
+        Set to "tcpzone" to specify that are Nginx TCP zone status.
       required: true
 
     - name: count
@@ -484,154 +485,153 @@ cache:
           description: >
             The total number of bytes written to the cache.
 
-stream:
+tcpzone:
   type: group
   description: >
-    Contains Nginx stream status. Details that you can get by reading the Nginx Plus status page.
+    Contains Nginx TCP zone status. Details that you can get by reading the Nginx Plus status page.
   fields:
-    - name: server_zones
-      type: nested
+    - name: name
+      type: string
+      description: >
+        The name of the TCP zone.
+
+    - name: processing
+      type: int
+      description: >
+        The number of client requests that are currently being processed.
+
+    - name: connections
+      type: int
+      description: >
+        The total number of connections accepted from clients.
+
+    - name: received
+      type: int
+      description: >
+        The total number of bytes received from clients.
+
+    - name: sent
+      type: int
+      description: >
+        The total number of bytes sent to clients.
+
+tcpupstream:
+  type: group
+  description: >
+    Contains Nginx TCP upstream status. Details that you can get by reading the Nginx Plus status page.
+  fields:
+    - name: name
+      type: string
+      description: >
+        The name of the TCP upstream group.
+
+    - name: peers
+      type: group
       fields:
-        - name: name
-          type: string
-          description: >
-            The name of the server zone.
+          - name: id
+            type: int
+            description: >
+              The ID of the server.
 
-        - name: processing
-          type: int
-          description: >
-            The number of client requests that are currently being processed.
+          - name: server
+            type: string
+            description: >
+              An address of the server.
 
-        - name: connections
-          type: int
-          description: >
-            The total number of connections accepted from clients.
+          - name: backup
+            type: boolean
+            description: >
+              A boolean value indicating whether the server is a backup server.
 
-        - name: received
-          type: int
-          description: >
-            The total number of bytes received from clients.
+          - name: weight
+            type: int
+            description: >
+              Weight of the server.
 
-        - name: sent
-          type: int
-          description: >
-            The total number of bytes sent to clients.
+          - name: state
+            type: string
+            description: >
+              Current state, which may be one of "up", "draining", "down", "unavail", or "unhealthy".
 
-    - name: upstreams
-      type: nested
-      fields:
-        - name: name
-          type: string
-          description: >
-            The name of the upstream group.
+          - name: active
+            type: int
+            description: >
+              The current number of active connections.
 
-        - name: peers
-          type: group
-          fields:
-              - name: id
+          - name: connections
+            type: int
+            description: >
+              The total number of client connections forwarded to this server.
+
+          - name: connect_time
+            type: int
+            description: >
+              The average time to connect to the upstream server.
+
+          - name: first_byte_time
+            type: int
+            description: >
+              The average time to receive the first byte of data.
+
+          - name: response_time
+            type: int
+            description: >
+              The average time to receive the last byte of data.
+
+          - name: sent
+            type: int
+            description: >
+              The total number of bytes sent to this server.
+
+          - name: received
+            type: int
+            description: >
+              The total number of bytes received from this server.
+
+          - name: fails
+            type: int
+            description: >
+              The total number of unsuccessful attempts to communicate with the server.
+
+          - name: unavail
+            type: int
+            description: >
+              How many times the server became unavailable for client requests (state "unavail") due to the number of unsuccessful attempts reaching the max_fails threshold.
+
+          - name: health_checks
+            type: group
+            fields:
+              - name: checks
                 type: int
                 description: >
-                  The ID of the server.
-
-              - name: server
-                type: string
-                description: >
-                  An address of the server.
-
-              - name: backup
-                type: boolean
-                description: >
-                  A boolean value indicating whether the server is a backup server.
-
-              - name: weight
-                type: int
-                description: >
-                  Weight of the server.
-
-              - name: state
-                type: string
-                description: >
-                  Current state, which may be one of "up", "draining", "down", "unavail", or "unhealthy".
-
-              - name: active
-                type: int
-                description: >
-                  The current number of active connections.
-
-              - name: connections
-                type: int
-                description: >
-                  The total number of client connections forwarded to this server.
-
-              - name: connect_time
-                type: int
-                description: >
-                  The average time to connect to the upstream server.
-
-              - name: first_byte_time
-                type: int
-                description: >
-                  The average time to receive the first byte of data.
-
-              - name: response_time
-                type: int
-                description: >
-                  The average time to receive the last byte of data.
-
-              - name: sent
-                type: int
-                description: >
-                  The total number of bytes sent to this server.
-
-              - name: received
-                type: int
-                description: >
-                  The total number of bytes received from this server.
+                  The total number of health check requests made.
 
               - name: fails
                 type: int
                 description: >
-                  The total number of unsuccessful attempts to communicate with the server.
+                  The number of failed health checks.
 
-              - name: unavail
+              - name: unhealthy
                 type: int
                 description: >
-                  How many times the server became unavailable for client requests (state "unavail") due to the number of unsuccessful attempts reaching the max_fails threshold.
+                  How many times the server became unhealthy (state "unhealthy").
 
-              - name: health_checks
-                type: group
-                fields:
-                  - name: checks
-                    type: int
-                    description: >
-                      The total number of health check requests made.
-
-                  - name: fails
-                    type: int
-                    description: >
-                      The number of failed health checks.
-
-                  - name: unhealthy
-                    type: int
-                    description: >
-                      How many times the server became unhealthy (state "unhealthy").
-
-                  - name: last_passed
-                    type: int
-                    description: >
-                      Boolean indicating if the last health check request was successful and passed tests.
-
-              - name: downtime
+              - name: last_passed
                 type: int
                 description: >
-                  Total time the server was in the "unavail" and "unhealthy" states.
+                  Boolean indicating if the last health check request was successful and passed tests.
 
-              - name: downstart
-                type: int
-                description: >
-                  The time (in milliseconds since Epoch) when the server became "unavail" or "unhealthy".
+          - name: downtime
+            type: int
+            description: >
+              Total time the server was in the "unavail" and "unhealthy" states.
 
-              - name: selected
-                type: int
-                description: >
-                  The time (in milliseconds since Epoch) when the server was last selected to process a request.
+          - name: downstart
+            type: int
+            description: >
+              The time (in milliseconds since Epoch) when the server became "unavail" or "unhealthy".
+
+          - name: selected
+            type: int
+            description: >
+              The time (in milliseconds since Epoch) when the server was last selected to process a request.

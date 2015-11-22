@@ -15,7 +15,8 @@ SECTIONS = [
     ("zone", "Nginx status zone status"),
     ("upstream", "Nginx upstream group status"),
     ("cache", "Nginx cache zone status"),
-    ("stream", "Nginx stream status"),
+    ("tcpzone", "Nginx TCP zone status"),
+    ("tcpupstream", "Nginx TCP upstream status"),
 ]
 
 

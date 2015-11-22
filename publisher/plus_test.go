@@ -46,11 +46,22 @@ func TestPlusPublisher(t *testing.T) {
 				"name": "http_cache",
 			},
 		},
-		"stream": map[string]interface{}{},
+		"stream": map[string]interface{}{
+			"server_zones": []interface{}{
+				map[string]interface{}{
+					"name": "tcp_zone",
+				},
+			},
+			"upstreams": []interface{}{
+				map[string]interface{}{
+					"name": "tcp_upstream",
+				},
+			},
+		},
 	}
 
 	p1.Publish(s1)
-	assert.Equal(t, 5, len(c1))
+	assert.Equal(t, 6, len(c1))
 
 	s1e1 := <-c1
 	var s1m1 map[string]interface{}
@@ -79,6 +90,12 @@ func TestPlusPublisher(t *testing.T) {
 	s1e5 := <-c1
 	var s1m5 map[string]interface{}
 	if err := json.Unmarshal([]byte(s1e5.String()), &s1m5); assert.NoError(t, err) {
-		assert.Equal(t, "stream", s1m5["type"])
+		assert.Equal(t, "tcpzone", s1m5["type"])
+	}
+
+	s1e6 := <-c1
+	var s1m6 map[string]interface{}
+	if err := json.Unmarshal([]byte(s1e6.String()), &s1m6); assert.NoError(t, err) {
+		assert.Equal(t, "tcpupstream", s1m6["type"])
 	}
 }

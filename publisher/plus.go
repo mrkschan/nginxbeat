@@ -28,8 +28,11 @@ func (p *PlusPublisher) Publish(s map[string]interface{}) {
 	caches := s["caches"].([]interface{})
 	delete(s, "caches")
 
-	stream := s["stream"]
+	stream := s["stream"].(map[string]interface{})
 	delete(s, "stream")
+
+	tcpzones := stream["server_zones"].([]interface{})
+	tcpupstreams := stream["upstreams"].([]interface{})
 
 	now := common.Time(time.Now())
 
@@ -63,9 +66,19 @@ func (p *PlusPublisher) Publish(s map[string]interface{}) {
 		})
 	}
 
-	p.client.PublishEvent(common.MapStr{
-		"@timestamp": now,
-		"type":       "stream",
-		"stream":     stream,
-	})
+	for _, i := range tcpzones {
+		p.client.PublishEvent(common.MapStr{
+			"@timestamp": now,
+			"type":       "tcpzone",
+			"tcpzone":    i,
+		})
+	}
+
+	for _, i := range tcpupstreams {
+		p.client.PublishEvent(common.MapStr{
+			"@timestamp":  now,
+			"type":        "tcpupstream",
+			"tcpupstream": i,
+		})
+	}
 }

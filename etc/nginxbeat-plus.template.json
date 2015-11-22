@@ -37,9 +37,6 @@
           "properties": {
             "health_checks": {
               "properties": {}
-            },
-            "responses": {
-              "properties": {}
             }
           }
         },
@@ -58,10 +55,6 @@
         "revalidated": {
           "properties": {}
         },
-        "server_zones": {
-          "properties": {},
-          "type": "nested"
-        },
         "ssl": {
           "properties": {}
         },
@@ -70,18 +63,6 @@
         },
         "updating": {
           "properties": {}
-        },
-        "upstreams": {
-          "properties": {
-            "peers": {
-              "properties": {
-                "health_checks": {
-                  "properties": {}
-                }
-              }
-            }
-          },
-          "type": "nested"
         }
       }
     }

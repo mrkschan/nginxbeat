@@ -15,7 +15,8 @@ following categories:
 * <<exported-fields-zone>>
 * <<exported-fields-upstream>>
 * <<exported-fields-cache>>
-* <<exported-fields-stream>>
+* <<exported-fields-tcpzone>>
+* <<exported-fields-tcpupstream>>
 
 [[exported-fields-env]]
 === Common fields fields
@@ -41,7 +42,7 @@ The timestamp when the measurements were taken. The precision is in milliseconds
 
 required: True
 
-Set to "nginx" to specify that are Nginx status. Set to "zone" to specify that are Nginx server zone status. Set to "upstream" to specify that are Nginx upstream group status. Set to "cache" to specify that are Nginx cache zone status. Set to "stream" to specify that are Nginx stream status.
+Set to "nginx" to specify that are Nginx status. Set to "zone" to specify that are Nginx server zone status. Set to "upstream" to specify that are Nginx upstream group status. Set to "cache" to specify that are Nginx cache zone status. Set to "tcpupstream" to specify that are Nginx TCP upstream status. Set to "tcpzone" to specify that are Nginx TCP zone status.
 
 
 ==== count
@@ -669,23 +670,18 @@ type: int
 The total number of bytes written to the cache.
 
 
-[[exported-fields-stream]]
-=== Nginx stream status fields
+[[exported-fields-tcpzone]]
+=== Nginx TCP zone status fields
 
-Contains Nginx stream status. Details that you can get by reading the Nginx Plus status page.
+Contains Nginx TCP zone status. Details that you can get by reading the Nginx Plus status page.
 
-
-
-=== server_zones fields
-
-type: nested
 
 
 ==== name
 
 type: string
 
-The name of the server zone.
+The name of the TCP zone.
 
 
 ==== processing
@@ -716,16 +712,18 @@ type: int
 The total number of bytes sent to clients.
 
 
-=== upstreams fields
+[[exported-fields-tcpupstream]]
+=== Nginx TCP upstream status fields
 
-type: nested
+Contains Nginx TCP upstream status. Details that you can get by reading the Nginx Plus status page.
+
 
 
 ==== name
 
 type: string
 
-The name of the upstream group.
+The name of the TCP upstream group.
 
 
 === peers fields
