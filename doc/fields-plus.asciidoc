@@ -12,6 +12,10 @@ following categories:
 
 * <<exported-fields-env>>
 * <<exported-fields-nginx>>
+* <<exported-fields-zone>>
+* <<exported-fields-upstream>>
+* <<exported-fields-cache>>
+* <<exported-fields-stream>>
 
 [[exported-fields-env]]
 === Common fields fields
@@ -37,7 +41,7 @@ The timestamp when the measurements were taken. The precision is in milliseconds
 
 required: True
 
-Set to "nginx" to specify that are Nginx status.
+Set to "nginx" to specify that are Nginx status. Set to "zone" to specify that are Nginx server zone status. Set to "upstream" to specify that are Nginx upstream group status. Set to "cache" to specify that are Nginx cache zone status. Set to "stream" to specify that are Nginx stream status.
 
 
 ==== count
@@ -194,16 +198,18 @@ type: int
 The current number of client requests.
 
 
-=== server_zones fields
+[[exported-fields-zone]]
+=== Nginx status zone status fields
 
-type: nested
+Contains Nginx server zone status. Details that you can get by reading the Nginx Plus status page.
+
 
 
 ==== name
 
 type: string
 
-The name of the status zone.
+The name of the server zone.
 
 
 ==== processing
@@ -286,9 +292,11 @@ type: int
 The total number of bytes sent to clients.
 
 
-=== upstreams fields
+[[exported-fields-upstream]]
+=== Nginx upstream group status fields
 
-type: nested
+Contains Nginx upstream group status. Details that you can get by reading the Nginx Plus status page.
+
 
 
 ==== name
@@ -527,9 +535,11 @@ type: int
 The total number of requests rejected due to the queue overflow.
 
 
-=== caches fields
+[[exported-fields-cache]]
+=== Nginx cache zone status fields
 
-type: nested
+Contains Nginx cache zone status. Details that you can get by reading the Nginx Plus status page.
+
 
 
 ==== name
@@ -659,9 +669,11 @@ type: int
 The total number of bytes written to the cache.
 
 
-=== stream fields
+[[exported-fields-stream]]
+=== Nginx stream status fields
 
-type: nested
+Contains Nginx stream status. Details that you can get by reading the Nginx Plus status page.
+
 
 
 === server_zones fields
@@ -673,7 +685,7 @@ type: nested
 
 type: string
 
-The name of the status zone.
+The name of the server zone.
 
 
 ==== processing

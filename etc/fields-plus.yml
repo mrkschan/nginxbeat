@@ -24,6 +24,10 @@ env:
     - name: type
       description: >
         Set to "nginx" to specify that are Nginx status.
+        Set to "zone" to specify that are Nginx server zone status.
+        Set to "upstream" to specify that are Nginx upstream group status.
+        Set to "cache" to specify that are Nginx cache zone status.
+        Set to "stream" to specify that are Nginx stream status.
       required: true
 
     - name: count
@@ -142,61 +146,366 @@ nginx:
           description: >
             The current number of client requests.
 
+zone:
+  type: group
+  description: >
+    Contains Nginx server zone status. Details that you can get by reading the Nginx Plus status page.
+  fields:
+    - name: name
+      type: string
+      description: >
+        The name of the server zone.
+
+    - name: processing
+      type: int
+      description: >
+        The number of client requests that are currently being processed.
+
+    - name: requests
+      type: int
+      description: >
+        The total number of client requests received from clients.
+
+    - name: responses
+      type: group
+      fields:
+        - name: total
+          type: int
+          description: >
+            The total number of responses sent to clients.
+
+        - name: 1xx
+          type: int
+          description: >
+            The number of responses with status codes 1xx.
+
+        - name: 2xx
+          type: int
+          description: >
+            The number of responses with status codes 2xx.
+
+        - name: 3xx
+          type: int
+          description: >
+            The number of responses with status codes 3xx.
+
+        - name: 4xx
+          type: int
+          description: >
+            The number of responses with status codes 4xx.
+
+        - name: 5xx
+          type: int
+          description: >
+            The number of responses with status codes 5xx.
+
+    - name: discarded
+      type: int
+      description: >
+        The total number of requests completed without sending a response.
+
+    - name: received
+      type: int
+      description: >
+        The total number of bytes received from clients.
+
+    - name: sent
+      type: int
+      description: >
+        The total number of bytes sent to clients.
+
+upstream:
+  type: group
+  description: >
+    Contains Nginx upstream group status. Details that you can get by reading the Nginx Plus status page.
+  fields:
+    - name: name
+      type: string
+      description: >
+        The name of the upstream group.
+
+    - name: peers
+      type: group
+      fields:
+          - name: id
+            type: int
+            description: >
+              The ID of the server.
+
+          - name: server
+            type: string
+            description: >
+              An address of the server.
+
+          - name: backup
+            type: boolean
+            description: >
+              A boolean value indicating whether the server is a backup server.
+
+          - name: weight
+            type: int
+            description: >
+              Weight of the server.
+
+          - name: state
+            type: string
+            description: >
+              Current state, which may be one of "up", "draining", "down", "unavail", or "unhealthy".
+
+          - name: active
+            type: int
+            description: >
+              The current number of active connections.
+
+          - name: max_conns
+            type: int
+            description: >
+              The max_conns limit for the server.
+
+          - name: requests
+            type: int
+            description: >
+              The total number of client requests forwarded to this server.
+
+          - name: responses
+            type: group
+            fields:
+              - name: total
+                type: int
+                description: >
+                  The total number of responses obtained from this server.
+
+              - name: 1xx
+                type: int
+                description: >
+                  The number of responses with status codes 1xx.
+
+              - name: 2xx
+                type: int
+                description: >
+                  The number of responses with status codes 2xx.
+
+              - name: 3xx
+                type: int
+                description: >
+                  The number of responses with status codes 3xx.
+
+              - name: 4xx
+                type: int
+                description: >
+                  The number of responses with status codes 4xx.
+
+              - name: 5xx
+                type: int
+                description: >
+                  The number of responses with status codes 5xx.
+
+          - name: sent
+            type: int
+            description: >
+              The total number of bytes sent to this server.
+
+          - name: received
+            type: int
+            description: >
+              The total number of bytes received from this server.
+
+          - name: fails
+            type: int
+            description: >
+              The total number of unsuccessful attempts to communicate with the server.
+
+          - name: unavail
+            type: int
+            description: >
+              How many times the server became unavailable for client requests (state "unavail") due to the number of unsuccessful attempts reaching the max_fails threshold.
+
+          - name: health_checks
+            type: group
+            fields:
+              - name: checks
+                type: int
+                description: >
+                  The total number of health check requests made.
+
+              - name: fails
+                type: int
+                description: >
+                  The number of failed health checks.
+
+              - name: unhealthy
+                type: int
+                description: >
+                  How many times the server became unhealthy (state "unhealthy").
+
+              - name: last_passed
+                type: int
+                description: >
+                  Boolean indicating if the last health check request was successful and passed tests.
+
+          - name: downtime
+            type: int
+            description: >
+              Total time the server was in the "unavail" and "unhealthy" states.
+
+          - name: downstart
+            type: int
+            description: >
+              The time (in milliseconds since Epoch) when the server became "unavail" or "unhealthy".
+
+          - name: selected
+            type: int
+            description: >
+              The time (in milliseconds since Epoch) when the server was last selected to process a request.
+
+          - name: header_time
+            type: int
+            description: >
+              The average time to get the response header from the server.
+
+          - name: response_time
+            type: int
+            description: >
+              The average time to get the full response from the server.
+
+    - name: keepalive
+      type: int
+      description: >
+        The current number of idle keepalive connections.
+
+    - name: queue
+      type: group
+      fields:
+        - name: size
+          type: int
+          description: >
+            The current number of requests in the queue.
+
+        - name: max_size
+          type: int
+          description: >
+            The maximum number of requests that can be in the queue at the same time.
+
+        - name: overflows
+          type: int
+          description: >
+            The total number of requests rejected due to the queue overflow.
+
+cache:
+  type: group
+  description: >
+    Contains Nginx cache zone status. Details that you can get by reading the Nginx Plus status page.
+  fields:
+    - name: name
+      type: string
+      description: >
+        The name of the cache zone.
+
+    - name: size
+      type: int
+      description: >
+        The current size of the cache.
+
+    - name: max_size
+      type: int
+      description: >
+        The limit on the maximum size of the cache specified in the configuration.
+
+    - name: cold
+      type: boolean
+      description: >
+        A boolean value indicating whether the "cache loader" process is still loading data from disk into the cache.
+
+    - name: hit
+      type: group
+      fields:
+        - name: responses
+          type: int
+          description: >
+            The total number of responses read from the cache hit.
+        - name: bytes
+          type: int
+          description: >
+            The total number of bytes read from the cache.
+
+    - name: stale
+      type: group
+      fields:
+        - name: responses
+          type: int
+          description: >
+            The total number of responses read from the cache stale.
+        - name: bytes
+          type: int
+          description: >
+            The total number of bytes read from the cache.
+
+    - name: updating
+      type: group
+      fields:
+        - name: responses
+          type: int
+          description: >
+            The total number of responses read from the updating cache.
+        - name: bytes
+          type: int
+          description: >
+            The total number of bytes read from the cache.
+
+    - name: revalidated
+      type: group
+      fields:
+        - name: responses
+          type: int
+          description: >
+            The total number of responses read from the revalidated cache.
+        - name: bytes
+          type: int
+          description: >
+            The total number of bytes read from the cache.
+
+    - name: miss
+      type: group
+      fields:
+        - name: responses
+          type: int
+          description: >
+            The total number of responses not taken from the cache misses.
+        - name: bytes
+          type: int
+          description: >
+            The total number of bytes read from the proxied server.
+        - name: responses_written
+          type: int
+          description: >
+            The total number of responses written to the cache.
+        - name: bytes_written
+          type: int
+          description: >
+            The total number of bytes written to the cache.
+
+stream:
+  type: group
+  description: >
+    Contains Nginx stream status. Details that you can get by reading the Nginx Plus status page.
+  fields:
     - name: server_zones
       type: nested
       fields:
         - name: name
           type: string
           description: >
-            The name of the status zone.
+            The name of the server zone.
 
         - name: processing
           type: int
           description: >
             The number of client requests that are currently being processed.
 
-        - name: requests
+        - name: connections
           type: int
           description: >
-            The total number of client requests received from clients.
-
-        - name: responses
-          type: group
-          fields:
-            - name: total
-              type: int
-              description: >
-                The total number of responses sent to clients.
-
-            - name: 1xx
-              type: int
-              description: >
-                The number of responses with status codes 1xx.
-
-            - name: 2xx
-              type: int
-              description: >
-                The number of responses with status codes 2xx.
-
-            - name: 3xx
-              type: int
-              description: >
-                The number of responses with status codes 3xx.
-
-            - name: 4xx
-              type: int
-              description: >
-                The number of responses with status codes 4xx.
-
-            - name: 5xx
-              type: int
-              description: >
-                The number of responses with status codes 5xx.
-
-        - name: discarded
-          type: int
-          description: >
-            The total number of requests completed without sending a response.
+            The total number of connections accepted from clients.
 
         - name: received
           type: int
@@ -249,48 +558,25 @@ nginx:
                 description: >
                   The current number of active connections.
 
-              - name: max_conns
+              - name: connections
                 type: int
                 description: >
-                  The max_conns limit for the server.
+                  The total number of client connections forwarded to this server.
 
-              - name: requests
+              - name: connect_time
                 type: int
                 description: >
-                  The total number of client requests forwarded to this server.
+                  The average time to connect to the upstream server.
 
-              - name: responses
-                type: group
-                fields:
-                  - name: total
-                    type: int
-                    description: >
-                      The total number of responses obtained from this server.
+              - name: first_byte_time
+                type: int
+                description: >
+                  The average time to receive the first byte of data.
 
-                  - name: 1xx
-                    type: int
-                    description: >
-                      The number of responses with status codes 1xx.
-
-                  - name: 2xx
-                    type: int
-                    description: >
-                      The number of responses with status codes 2xx.
-
-                  - name: 3xx
-                    type: int
-                    description: >
-                      The number of responses with status codes 3xx.
-
-                  - name: 4xx
-                    type: int
-                    description: >
-                      The number of responses with status codes 4xx.
-
-                  - name: 5xx
-                    type: int
-                    description: >
-                      The number of responses with status codes 5xx.
+              - name: response_time
+                type: int
+                description: >
+                  The average time to receive the last byte of data.
 
               - name: sent
                 type: int
@@ -349,277 +635,3 @@ nginx:
                 type: int
                 description: >
                   The time (in milliseconds since Epoch) when the server was last selected to process a request.
-
-              - name: header_time
-                type: int
-                description: >
-                  The average time to get the response header from the server.
-
-              - name: response_time
-                type: int
-                description: >
-                  The average time to get the full response from the server.
-
-        - name: keepalive
-          type: int
-          description: >
-            The current number of idle keepalive connections.
-
-        - name: queue
-          type: group
-          fields:
-            - name: size
-              type: int
-              description: >
-                The current number of requests in the queue.
-
-            - name: max_size
-              type: int
-              description: >
-                The maximum number of requests that can be in the queue at the same time.
-
-            - name: overflows
-              type: int
-              description: >
-                The total number of requests rejected due to the queue overflow.
-
-    - name: caches
-      type: nested
-      fields:
-        - name: name
-          type: string
-          description: >
-            The name of the cache zone.
-
-        - name: size
-          type: int
-          description: >
-            The current size of the cache.
-
-        - name: max_size
-          type: int
-          description: >
-            The limit on the maximum size of the cache specified in the configuration.
-
-        - name: cold
-          type: boolean
-          description: >
-            A boolean value indicating whether the "cache loader" process is still loading data from disk into the cache.
-
-        - name: hit
-          type: group
-          fields:
-            - name: responses
-              type: int
-              description: >
-                The total number of responses read from the cache hit.
-            - name: bytes
-              type: int
-              description: >
-                The total number of bytes read from the cache.
-
-        - name: stale
-          type: group
-          fields:
-            - name: responses
-              type: int
-              description: >
-                The total number of responses read from the cache stale.
-            - name: bytes
-              type: int
-              description: >
-                The total number of bytes read from the cache.
-
-        - name: updating
-          type: group
-          fields:
-            - name: responses
-              type: int
-              description: >
-                The total number of responses read from the updating cache.
-            - name: bytes
-              type: int
-              description: >
-                The total number of bytes read from the cache.
-
-        - name: revalidated
-          type: group
-          fields:
-            - name: responses
-              type: int
-              description: >
-                The total number of responses read from the revalidated cache.
-            - name: bytes
-              type: int
-              description: >
-                The total number of bytes read from the cache.
-
-        - name: miss
-          type: group
-          fields:
-            - name: responses
-              type: int
-              description: >
-                The total number of responses not taken from the cache misses.
-            - name: bytes
-              type: int
-              description: >
-                The total number of bytes read from the proxied server.
-            - name: responses_written
-              type: int
-              description: >
-                The total number of responses written to the cache.
-            - name: bytes_written
-              type: int
-              description: >
-                The total number of bytes written to the cache.
-
-    - name: stream
-      type: nested
-      fields:
-        - name: server_zones
-          type: nested
-          fields:
-            - name: name
-              type: string
-              description: >
-                The name of the status zone.
-
-            - name: processing
-              type: int
-              description: >
-                The number of client requests that are currently being processed.
-
-            - name: connections
-              type: int
-              description: >
-                The total number of connections accepted from clients.
-
-            - name: received
-              type: int
-              description: >
-                The total number of bytes received from clients.
-
-            - name: sent
-              type: int
-              description: >
-                The total number of bytes sent to clients.
-
-        - name: upstreams
-          type: nested
-          fields:
-            - name: name
-              type: string
-              description: >
-                The name of the upstream group.
-
-            - name: peers
-              type: group
-              fields:
-                  - name: id
-                    type: int
-                    description: >
-                      The ID of the server.
-
-                  - name: server
-                    type: string
-                    description: >
-                      An address of the server.
-
-                  - name: backup
-                    type: boolean
-                    description: >
-                      A boolean value indicating whether the server is a backup server.
-
-                  - name: weight
-                    type: int
-                    description: >
-                      Weight of the server.
-
-                  - name: state
-                    type: string
-                    description: >
-                      Current state, which may be one of "up", "draining", "down", "unavail", or "unhealthy".
-
-                  - name: active
-                    type: int
-                    description: >
-                      The current number of active connections.
-
-                  - name: connections
-                    type: int
-                    description: >
-                      The total number of client connections forwarded to this server.
-
-                  - name: connect_time
-                    type: int
-                    description: >
-                      The average time to connect to the upstream server.
-
-                  - name: first_byte_time
-                    type: int
-                    description: >
-                      The average time to receive the first byte of data.
-
-                  - name: response_time
-                    type: int
-                    description: >
-                      The average time to receive the last byte of data.
-
-                  - name: sent
-                    type: int
-                    description: >
-                      The total number of bytes sent to this server.
-
-                  - name: received
-                    type: int
-                    description: >
-                      The total number of bytes received from this server.
-
-                  - name: fails
-                    type: int
-                    description: >
-                      The total number of unsuccessful attempts to communicate with the server.
-
-                  - name: unavail
-                    type: int
-                    description: >
-                      How many times the server became unavailable for client requests (state "unavail") due to the number of unsuccessful attempts reaching the max_fails threshold.
-
-                  - name: health_checks
-                    type: group
-                    fields:
-                      - name: checks
-                        type: int
-                        description: >
-                          The total number of health check requests made.
-
-                      - name: fails
-                        type: int
-                        description: >
-                          The number of failed health checks.
-
-                      - name: unhealthy
-                        type: int
-                        description: >
-                          How many times the server became unhealthy (state "unhealthy").
-
-                      - name: last_passed
-                        type: int
-                        description: >
-                          Boolean indicating if the last health check request was successful and passed tests.
-
-                  - name: downtime
-                    type: int
-                    description: >
-                      Total time the server was in the "unavail" and "unhealthy" states.
-
-                  - name: downstart
-                    type: int
-                    description: >
-                      The time (in milliseconds since Epoch) when the server became "unavail" or "unhealthy".
-
-                  - name: selected
-                    type: int
-                    description: >
-                      The time (in milliseconds since Epoch) when the server was last selected to process a request.
