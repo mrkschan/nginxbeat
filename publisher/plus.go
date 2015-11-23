@@ -39,7 +39,9 @@ func (p *PlusPublisher) Publish(s map[string]interface{}) {
 
 	now := common.Time(time.Now())
 
-	p.client.PublishEvent(common.MapStr{
+	buf := []common.MapStr{}
+
+	buf = append(buf, common.MapStr{
 		"@timestamp": now,
 		"type":       "nginx",
 		"nginx":      s,
@@ -50,7 +52,7 @@ func (p *PlusPublisher) Publish(s map[string]interface{}) {
 		m["version"] = version
 		m["nginx_version"] = nginxVersion
 
-		p.client.PublishEvent(common.MapStr{
+		buf = append(buf, common.MapStr{
 			"@timestamp": now,
 			"type":       "zone",
 			"zone":       m,
@@ -62,7 +64,7 @@ func (p *PlusPublisher) Publish(s map[string]interface{}) {
 		m["version"] = version
 		m["nginx_version"] = nginxVersion
 
-		p.client.PublishEvent(common.MapStr{
+		buf = append(buf, common.MapStr{
 			"@timestamp": now,
 			"type":       "upstream",
 			"upstream":   m,
@@ -74,7 +76,7 @@ func (p *PlusPublisher) Publish(s map[string]interface{}) {
 		m["version"] = version
 		m["nginx_version"] = nginxVersion
 
-		p.client.PublishEvent(common.MapStr{
+		buf = append(buf, common.MapStr{
 			"@timestamp": now,
 			"type":       "cache",
 			"cache":      m,
@@ -86,7 +88,7 @@ func (p *PlusPublisher) Publish(s map[string]interface{}) {
 		m["version"] = version
 		m["nginx_version"] = nginxVersion
 
-		p.client.PublishEvent(common.MapStr{
+		buf = append(buf, common.MapStr{
 			"@timestamp": now,
 			"type":       "tcpzone",
 			"tcpzone":    m,
@@ -98,10 +100,12 @@ func (p *PlusPublisher) Publish(s map[string]interface{}) {
 		m["version"] = version
 		m["nginx_version"] = nginxVersion
 
-		p.client.PublishEvent(common.MapStr{
+		buf = append(buf, common.MapStr{
 			"@timestamp":  now,
 			"type":        "tcpupstream",
 			"tcpupstream": m,
 		})
 	}
+
+	p.client.PublishEvents(buf)
 }
