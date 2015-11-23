@@ -213,6 +213,20 @@ type: string
 The name of the server zone.
 
 
+==== version
+
+type: int
+
+Version of the Nginx Plus status data set.
+
+
+==== nginx_version
+
+type: int
+
+Version of Nginx.
+
+
 ==== processing
 
 type: int
@@ -305,6 +319,20 @@ Contains Nginx upstream group status. Details that you can get by reading the Ng
 type: string
 
 The name of the upstream group.
+
+
+==== version
+
+type: int
+
+Version of the Nginx Plus status data set.
+
+
+==== nginx_version
+
+type: int
+
+Version of Nginx.
 
 
 === peers fields
@@ -550,6 +578,20 @@ type: string
 The name of the cache zone.
 
 
+==== version
+
+type: int
+
+Version of the Nginx Plus status data set.
+
+
+==== nginx_version
+
+type: int
+
+Version of Nginx.
+
+
 ==== size
 
 type: int
@@ -684,6 +726,20 @@ type: string
 The name of the TCP zone.
 
 
+==== version
+
+type: int
+
+Version of the Nginx Plus status data set.
+
+
+==== nginx_version
+
+type: int
+
+Version of Nginx.
+
+
 ==== processing
 
 type: int
@@ -724,6 +780,20 @@ Contains Nginx TCP upstream status. Details that you can get by reading the Ngin
 type: string
 
 The name of the TCP upstream group.
+
+
+==== version
+
+type: int
+
+Version of the Nginx Plus status data set.
+
+
+==== nginx_version
+
+type: int
+
+Version of Nginx.
 
 
 === peers fields

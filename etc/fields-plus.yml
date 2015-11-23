@@ -157,6 +157,16 @@ zone:
       description: >
         The name of the server zone.
 
+    - name: version
+      type: int
+      description: >
+        Version of the Nginx Plus status data set.
+
+    - name: nginx_version
+      type: int
+      description: >
+        Version of Nginx.
+
     - name: processing
       type: int
       description: >
@@ -224,6 +234,16 @@ upstream:
       type: string
       description: >
         The name of the upstream group.
+
+    - name: version
+      type: int
+      description: >
+        Version of the Nginx Plus status data set.
+
+    - name: nginx_version
+      type: int
+      description: >
+        Version of Nginx.
 
     - name: peers
       type: group
@@ -402,6 +422,16 @@ cache:
       description: >
         The name of the cache zone.
 
+    - name: version
+      type: int
+      description: >
+        Version of the Nginx Plus status data set.
+
+    - name: nginx_version
+      type: int
+      description: >
+        Version of Nginx.
+
     - name: size
       type: int
       description: >
@@ -495,6 +525,16 @@ tcpzone:
       description: >
         The name of the TCP zone.
 
+    - name: version
+      type: int
+      description: >
+        Version of the Nginx Plus status data set.
+
+    - name: nginx_version
+      type: int
+      description: >
+        Version of Nginx.
+
     - name: processing
       type: int
       description: >
@@ -524,6 +564,16 @@ tcpupstream:
       type: string
       description: >
         The name of the TCP upstream group.
+
+    - name: version
+      type: int
+      description: >
+        Version of the Nginx Plus status data set.
+
+    - name: nginx_version
+      type: int
+      description: >
+        Version of Nginx.
 
     - name: peers
       type: group

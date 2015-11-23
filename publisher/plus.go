@@ -19,6 +19,9 @@ func NewPlusPublisher(c publisher.Client) *PlusPublisher {
 
 // Publish Nginx Plus status.
 func (p *PlusPublisher) Publish(s map[string]interface{}) {
+	version := s["version"]
+	nginxVersion := s["nginx_version"]
+
 	zones := s["server_zones"].([]interface{})
 	delete(s, "server_zones")
 
@@ -43,42 +46,62 @@ func (p *PlusPublisher) Publish(s map[string]interface{}) {
 	})
 
 	for _, i := range zones {
+		m := i.(map[string]interface{})
+		m["version"] = version
+		m["nginx_version"] = nginxVersion
+
 		p.client.PublishEvent(common.MapStr{
 			"@timestamp": now,
 			"type":       "zone",
-			"zone":       i,
+			"zone":       m,
 		})
 	}
 
 	for _, i := range upstreams {
+		m := i.(map[string]interface{})
+		m["version"] = version
+		m["nginx_version"] = nginxVersion
+
 		p.client.PublishEvent(common.MapStr{
 			"@timestamp": now,
 			"type":       "upstream",
-			"upstream":   i,
+			"upstream":   m,
 		})
 	}
 
 	for _, i := range caches {
+		m := i.(map[string]interface{})
+		m["version"] = version
+		m["nginx_version"] = nginxVersion
+
 		p.client.PublishEvent(common.MapStr{
 			"@timestamp": now,
 			"type":       "cache",
-			"cache":      i,
+			"cache":      m,
 		})
 	}
 
 	for _, i := range tcpzones {
+		m := i.(map[string]interface{})
+		m["version"] = version
+		m["nginx_version"] = nginxVersion
+
 		p.client.PublishEvent(common.MapStr{
 			"@timestamp": now,
 			"type":       "tcpzone",
-			"tcpzone":    i,
+			"tcpzone":    m,
 		})
 	}
 
 	for _, i := range tcpupstreams {
+		m := i.(map[string]interface{})
+		m["version"] = version
+		m["nginx_version"] = nginxVersion
+
 		p.client.PublishEvent(common.MapStr{
 			"@timestamp":  now,
 			"type":        "tcpupstream",
-			"tcpupstream": i,
+			"tcpupstream": m,
 		})
 	}
 }
