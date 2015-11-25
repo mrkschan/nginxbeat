@@ -57,6 +57,8 @@ func (c *PlusCollector) Collect(u url.URL) (map[string]interface{}, error) {
 			i++
 		}
 		status["server_zones"] = zones
+	} else {
+		status["server_zones"] = []interface{}{}
 	}
 
 	// Convert 'upstreams' into nested data type instead of
@@ -72,6 +74,8 @@ func (c *PlusCollector) Collect(u url.URL) (map[string]interface{}, error) {
 			i++
 		}
 		status["upstreams"] = upstreams
+	} else {
+		status["upstreams"] = []interface{}{}
 	}
 
 	// Convert 'caches' into nested data type instead of
@@ -87,6 +91,8 @@ func (c *PlusCollector) Collect(u url.URL) (map[string]interface{}, error) {
 			i++
 		}
 		status["caches"] = caches
+	} else {
+		status["caches"] = []interface{}{}
 	}
 
 	// Convert 'stream' into nested data type instead of
@@ -121,6 +127,11 @@ func (c *PlusCollector) Collect(u url.URL) (map[string]interface{}, error) {
 		stream["upstreams"] = upstreams
 
 		status["stream"] = stream
+	} else {
+		status["stream"] = map[string]interface{}{
+			"server_zones": []interface{}{},
+			"upstreams":    []interface{}{},
+		}
 	}
 
 	return status, nil
