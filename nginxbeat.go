@@ -7,11 +7,10 @@ import (
 
 	"github.com/elastic/libbeat/beat"
 	"github.com/elastic/libbeat/cfgfile"
-	"github.com/elastic/libbeat/common"
 	"github.com/elastic/libbeat/logp"
-	"github.com/elastic/libbeat/publisher"
 
 	"github.com/mrkschan/nginxbeat/collector"
+	"github.com/mrkschan/nginxbeat/publisher"
 )
 
 const selector = "nginxbeat"
@@ -21,8 +20,7 @@ type Nginxbeat struct {
 	// NbConfig holds configurations of Nginxbeat parsed by libbeat.
 	NbConfig ConfigSettings
 
-	done   chan uint
-	events publisher.Client
+	done chan uint
 
 	urls   []*url.URL
 	format string
@@ -85,7 +83,6 @@ func (nb *Nginxbeat) Config(b *beat.Beat) error {
 
 // Setup Nginxbeat.
 func (nb *Nginxbeat) Setup(b *beat.Beat) error {
-	nb.events = b.Events
 	nb.done = make(chan uint)
 
 	return nil
@@ -98,12 +95,15 @@ func (nb *Nginxbeat) Run(b *beat.Beat) error {
 	for _, u := range nb.urls {
 		go func() {
 			var c collector.Collector
+			var p publisher.Publisher
 
 			switch nb.format {
 			case "stub":
 				c = collector.NewStubCollector()
+				p = publisher.NewStubPublisher(b.Events)
 			case "plus":
 				c = collector.NewPlusCollector()
+				p = publisher.NewPlusPublisher(b.Events)
 			}
 
 			ticker := time.NewTicker(nb.period)
@@ -123,11 +123,7 @@ func (nb *Nginxbeat) Run(b *beat.Beat) error {
 					logp.Err("Fail to read Nginx status: %v", err)
 					goto GotoNext
 				}
-				nb.events.PublishEvent(common.MapStr{
-					"@timestamp": common.Time(time.Now()),
-					"type":       "nginx",
-					"nginx":      s,
-				})
+				p.Publish(s)
 
 			GotoNext:
 				end := time.Now()

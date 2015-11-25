@@ -24,84 +24,45 @@
         "@timestamp": {
           "type": "date"
         },
-        "caches": {
-          "properties": {
-            "hit": {
-              "properties": {}
-            },
-            "miss": {
-              "properties": {}
-            },
-            "revalidated": {
-              "properties": {}
-            },
-            "stale": {
-              "properties": {}
-            },
-            "updating": {
-              "properties": {}
-            }
-          },
-          "type": "nested"
-        },
         "connections": {
           "properties": {}
         },
+        "hit": {
+          "properties": {}
+        },
+        "miss": {
+          "properties": {}
+        },
+        "peers": {
+          "properties": {
+            "health_checks": {
+              "properties": {}
+            }
+          }
+        },
         "processes": {
+          "properties": {}
+        },
+        "queue": {
           "properties": {}
         },
         "requests": {
           "properties": {}
         },
-        "server_zones": {
-          "properties": {
-            "responses": {
-              "properties": {}
-            }
-          },
-          "type": "nested"
+        "responses": {
+          "properties": {}
+        },
+        "revalidated": {
+          "properties": {}
         },
         "ssl": {
           "properties": {}
         },
-        "stream": {
-          "properties": {
-            "server_zones": {
-              "properties": {},
-              "type": "nested"
-            },
-            "upstreams": {
-              "properties": {
-                "peers": {
-                  "properties": {
-                    "health_checks": {
-                      "properties": {}
-                    }
-                  }
-                }
-              },
-              "type": "nested"
-            }
-          },
-          "type": "nested"
+        "stale": {
+          "properties": {}
         },
-        "upstreams": {
-          "properties": {
-            "peers": {
-              "properties": {
-                "health_checks": {
-                  "properties": {}
-                },
-                "responses": {
-                  "properties": {}
-                }
-              }
-            },
-            "queue": {
-              "properties": {}
-            }
-          },
-          "type": "nested"
+        "updating": {
+          "properties": {}
         }
       }
     }
