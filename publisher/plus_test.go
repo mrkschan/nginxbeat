@@ -73,6 +73,7 @@ func TestPlusPublisher(t *testing.T) {
 		assert.Equal(t, "nginx", _p["type"])
 
 		_s := _p["nginx"].(map[string]interface{})
+		assert.Equal(t, "plus", _s["format"])
 		assert.Equal(t, 6, _s["version"])
 		assert.Equal(t, "1.9.4", _s["nginx_version"])
 	}
@@ -84,6 +85,7 @@ func TestPlusPublisher(t *testing.T) {
 		assert.Equal(t, "zone", _p["type"])
 
 		_s := _p["zone"].(map[string]interface{})
+		assert.Equal(t, "plus", _s["format"])
 		assert.Equal(t, 6, _s["version"])
 		assert.Equal(t, "1.9.4", _s["nginx_version"])
 	}
@@ -95,6 +97,7 @@ func TestPlusPublisher(t *testing.T) {
 		assert.Equal(t, "upstream", _p["type"])
 
 		_s := _p["upstream"].(map[string]interface{})
+		assert.Equal(t, "plus", _s["format"])
 		assert.Equal(t, 6, _s["version"])
 		assert.Equal(t, "1.9.4", _s["nginx_version"])
 	}
@@ -106,6 +109,7 @@ func TestPlusPublisher(t *testing.T) {
 		assert.Equal(t, "cache", _p["type"])
 
 		_s := _p["cache"].(map[string]interface{})
+		assert.Equal(t, "plus", _s["format"])
 		assert.Equal(t, 6, _s["version"])
 		assert.Equal(t, "1.9.4", _s["nginx_version"])
 	}
@@ -117,6 +121,7 @@ func TestPlusPublisher(t *testing.T) {
 		assert.Equal(t, "tcpzone", _p["type"])
 
 		_s := _p["tcpzone"].(map[string]interface{})
+		assert.Equal(t, "plus", _s["format"])
 		assert.Equal(t, 6, _s["version"])
 		assert.Equal(t, "1.9.4", _s["nginx_version"])
 	}
@@ -128,6 +133,7 @@ func TestPlusPublisher(t *testing.T) {
 		assert.Equal(t, "tcpupstream", _p["type"])
 
 		_s := _p["tcpupstream"].(map[string]interface{})
+		assert.Equal(t, "plus", _s["format"])
 		assert.Equal(t, 6, _s["version"])
 		assert.Equal(t, "1.9.4", _s["nginx_version"])
 	}

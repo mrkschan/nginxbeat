@@ -23,7 +23,6 @@ type Nginxbeat struct {
 	done chan uint
 
 	urls   []*url.URL
-	format string
 	period time.Duration
 }
 
@@ -49,23 +48,15 @@ func (nb *Nginxbeat) Config(b *beat.Beat) error {
 			logp.Err("Invalid Nginx status page: %v", err)
 			return err
 		}
+		switch u.Fragment {
+		case "plus", "stub":
+		default:
+			err := fmt.Errorf("%s is not supported", u.Fragment)
+			logp.Err("Invalid Nginx status page format: %v", err)
+			return err
+		}
 		nb.urls[i] = u
 	}
-
-	var f string
-	if nb.NbConfig.Input.Format != "" {
-		f = nb.NbConfig.Input.Format
-	} else {
-		f = "stub"
-	}
-	if f != "stub" && f != "plus" {
-		err = fmt.Errorf("%s is an unsupported format", f)
-	}
-	if err != nil {
-		logp.Err("Invalid Nginx status format: %v", err)
-		return err
-	}
-	nb.format = f
 
 	if nb.NbConfig.Input.Period != nil {
 		nb.period = time.Duration(*nb.NbConfig.Input.Period) * time.Second
@@ -75,7 +66,6 @@ func (nb *Nginxbeat) Config(b *beat.Beat) error {
 
 	logp.Debug(selector, "Init nginxbeat")
 	logp.Debug(selector, "Watch %v", nb.urls)
-	logp.Debug(selector, "Format %v", nb.format)
 	logp.Debug(selector, "Period %v", nb.period)
 
 	return nil
@@ -97,7 +87,7 @@ func (nb *Nginxbeat) Run(b *beat.Beat) error {
 			var c collector.Collector
 			var p publisher.Publisher
 
-			switch nb.format {
+			switch u.Fragment {
 			case "stub":
 				c = collector.NewStubCollector()
 				p = publisher.NewStubPublisher(b.Events)
