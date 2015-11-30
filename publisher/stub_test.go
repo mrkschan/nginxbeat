@@ -31,15 +31,14 @@ func TestStubPublisher(t *testing.T) {
 
 	s1 := map[string]interface{}{}
 
-	p1.Publish(s1)
+	p1.Publish(s1, "__SOURCE__")
 	assert.Equal(t, 1, len(c1))
 
 	s1e1 := <-c1
 	var s1m1 map[string]interface{}
 	if err := json.Unmarshal([]byte(s1e1.String()), &s1m1); assert.NoError(t, err) {
 		assert.Equal(t, "nginx", s1m1["type"])
-
-		_s := s1m1["nginx"].(map[string]interface{})
-		assert.Equal(t, "stub", _s["format"])
+		assert.Equal(t, "stub", s1m1["format"])
+		assert.Equal(t, "__SOURCE__", s1m1["source"])
 	}
 }
