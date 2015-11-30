@@ -63,7 +63,7 @@ func TestPlusPublisher(t *testing.T) {
 		},
 	}
 
-	p1.Publish(s1)
+	p1.Publish(s1, "__SOURCE__")
 	assert.Equal(t, 6, len(c1))
 
 	s1e1 := <-c1
@@ -72,6 +72,7 @@ func TestPlusPublisher(t *testing.T) {
 		_p := collector.Ftoi(s1m1)
 		assert.Equal(t, "nginx", _p["type"])
 		assert.Equal(t, "plus", _p["format"])
+		assert.Equal(t, "__SOURCE__", _p["source"])
 
 		_s := _p["nginx"].(map[string]interface{})
 		assert.Equal(t, 6, _s["version"])
@@ -84,6 +85,7 @@ func TestPlusPublisher(t *testing.T) {
 		_p := collector.Ftoi(s1m2)
 		assert.Equal(t, "zone", _p["type"])
 		assert.Equal(t, "plus", _p["format"])
+		assert.Equal(t, "__SOURCE__", _p["source"])
 
 		_s := _p["zone"].(map[string]interface{})
 		assert.Equal(t, 6, _s["version"])
@@ -96,6 +98,7 @@ func TestPlusPublisher(t *testing.T) {
 		_p := collector.Ftoi(s1m3)
 		assert.Equal(t, "upstream", _p["type"])
 		assert.Equal(t, "plus", _p["format"])
+		assert.Equal(t, "__SOURCE__", _p["source"])
 
 		_s := _p["upstream"].(map[string]interface{})
 		assert.Equal(t, 6, _s["version"])
@@ -108,6 +111,7 @@ func TestPlusPublisher(t *testing.T) {
 		_p := collector.Ftoi(s1m4)
 		assert.Equal(t, "cache", _p["type"])
 		assert.Equal(t, "plus", _p["format"])
+		assert.Equal(t, "__SOURCE__", _p["source"])
 
 		_s := _p["cache"].(map[string]interface{})
 		assert.Equal(t, 6, _s["version"])
@@ -120,6 +124,7 @@ func TestPlusPublisher(t *testing.T) {
 		_p := collector.Ftoi(s1m5)
 		assert.Equal(t, "tcpzone", _p["type"])
 		assert.Equal(t, "plus", _p["format"])
+		assert.Equal(t, "__SOURCE__", _p["source"])
 
 		_s := _p["tcpzone"].(map[string]interface{})
 		assert.Equal(t, 6, _s["version"])
@@ -132,6 +137,7 @@ func TestPlusPublisher(t *testing.T) {
 		_p := collector.Ftoi(s1m6)
 		assert.Equal(t, "tcpupstream", _p["type"])
 		assert.Equal(t, "plus", _p["format"])
+		assert.Equal(t, "__SOURCE__", _p["source"])
 
 		_s := _p["tcpupstream"].(map[string]interface{})
 		assert.Equal(t, 6, _s["version"])

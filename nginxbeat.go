@@ -113,7 +113,7 @@ func (nb *Nginxbeat) Run(b *beat.Beat) error {
 					logp.Err("Fail to read Nginx status: %v", err)
 					goto GotoNext
 				}
-				p.Publish(s)
+				p.Publish(s, u.String())
 
 			GotoNext:
 				end := time.Now()
