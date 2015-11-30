@@ -4,6 +4,8 @@ We try to follow the [Golang coding standards](https://github.com/golang/go/wiki
 
 Anyway, make sure to run `go fmt`, `go vet`, `goimports`, `golint` before you push your code.
 
+Oh, btw, the core contributors would re-format the commits to keep the history clean (http://blog.spreedly.com/2014/06/24/merge-pull-request-considered-harmful/).
+
 
 ## Dependency Management
 
