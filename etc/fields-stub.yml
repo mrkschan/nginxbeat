@@ -45,6 +45,11 @@ nginx:
   description: >
     Contains Nginx status. Details that you can get by reading the Nginx stub status page.
   fields:
+    - name: format
+      type: string
+      description: >
+        Format of the status data set.
+
     - name: active
       type: int
       description: >

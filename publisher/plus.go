@@ -19,6 +19,8 @@ func NewPlusPublisher(c publisher.Client) *PlusPublisher {
 
 // Publish Nginx Plus status.
 func (p *PlusPublisher) Publish(s map[string]interface{}) {
+	const format = "plus"
+
 	version := s["version"]
 	nginxVersion := s["nginx_version"]
 
@@ -41,6 +43,7 @@ func (p *PlusPublisher) Publish(s map[string]interface{}) {
 
 	buf := []common.MapStr{}
 
+	s["format"] = format
 	buf = append(buf, common.MapStr{
 		"@timestamp": now,
 		"type":       "nginx",
@@ -51,6 +54,7 @@ func (p *PlusPublisher) Publish(s map[string]interface{}) {
 		m := i.(map[string]interface{})
 		m["version"] = version
 		m["nginx_version"] = nginxVersion
+		m["format"] = format
 
 		buf = append(buf, common.MapStr{
 			"@timestamp": now,
@@ -63,6 +67,7 @@ func (p *PlusPublisher) Publish(s map[string]interface{}) {
 		m := i.(map[string]interface{})
 		m["version"] = version
 		m["nginx_version"] = nginxVersion
+		m["format"] = format
 
 		buf = append(buf, common.MapStr{
 			"@timestamp": now,
@@ -75,6 +80,7 @@ func (p *PlusPublisher) Publish(s map[string]interface{}) {
 		m := i.(map[string]interface{})
 		m["version"] = version
 		m["nginx_version"] = nginxVersion
+		m["format"] = format
 
 		buf = append(buf, common.MapStr{
 			"@timestamp": now,
@@ -87,6 +93,7 @@ func (p *PlusPublisher) Publish(s map[string]interface{}) {
 		m := i.(map[string]interface{})
 		m["version"] = version
 		m["nginx_version"] = nginxVersion
+		m["format"] = format
 
 		buf = append(buf, common.MapStr{
 			"@timestamp": now,
@@ -99,6 +106,7 @@ func (p *PlusPublisher) Publish(s map[string]interface{}) {
 		m := i.(map[string]interface{})
 		m["version"] = version
 		m["nginx_version"] = nginxVersion
+		m["format"] = format
 
 		buf = append(buf, common.MapStr{
 			"@timestamp":  now,

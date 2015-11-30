@@ -3,16 +3,12 @@
 ############################# Input ############################################
 input:
   # List of URLs to Nginx status page.
-  # E.g. "http://127.0.0.1:8080/status", "http://demo.nginx.com/status"
-  # Defaults to ["http://127.0.0.1:8080/status"].
+  # E.g. "http://127.0.0.1:8080/status#stub", "http://demo.nginx.com/status#plus"
+  # Defaults to ["http://127.0.0.1:8080/status#stub"].
   urls:
-    - http://127.0.0.1:8080/status
-    - http://127.0.0.1:8081/status
-
-  # Format of the status page, either "stub" or "plus".
-  # Use "stub" for Nginx stub status page.
-  # Use "plus" for Nginx Plus status JSON document.
-  format: stub
+    - http://127.0.0.1:8080/status#stub
+    - http://127.0.0.1:8081/status#stub
+    - http://demo.nginx.com/status#plus
 
   # In seconds, defines how often to read statistics.
   # Defaults to 10s.

@@ -7,6 +7,8 @@ import (
 	"github.com/elastic/libbeat/common"
 	"github.com/elastic/libbeat/publisher"
 	"github.com/stretchr/testify/assert"
+
+	"github.com/mrkschan/nginxbeat/collector"
 )
 
 // Mocks publisher.Client.
@@ -30,7 +32,8 @@ func TestPlusPublisher(t *testing.T) {
 	p1 := NewPlusPublisher(&PlusTestClient{Channel: c1})
 
 	s1 := map[string]interface{}{
-		"version": 6,
+		"version":       6,
+		"nginx_version": "1.9.4",
 		"server_zones": []interface{}{
 			map[string]interface{}{
 				"name": "t.nginx.org",
@@ -66,36 +69,72 @@ func TestPlusPublisher(t *testing.T) {
 	s1e1 := <-c1
 	var s1m1 map[string]interface{}
 	if err := json.Unmarshal([]byte(s1e1.String()), &s1m1); assert.NoError(t, err) {
-		assert.Equal(t, "nginx", s1m1["type"])
+		_p := collector.Ftoi(s1m1)
+		assert.Equal(t, "nginx", _p["type"])
+
+		_s := _p["nginx"].(map[string]interface{})
+		assert.Equal(t, "plus", _s["format"])
+		assert.Equal(t, 6, _s["version"])
+		assert.Equal(t, "1.9.4", _s["nginx_version"])
 	}
 
 	s1e2 := <-c1
 	var s1m2 map[string]interface{}
 	if err := json.Unmarshal([]byte(s1e2.String()), &s1m2); assert.NoError(t, err) {
-		assert.Equal(t, "zone", s1m2["type"])
+		_p := collector.Ftoi(s1m2)
+		assert.Equal(t, "zone", _p["type"])
+
+		_s := _p["zone"].(map[string]interface{})
+		assert.Equal(t, "plus", _s["format"])
+		assert.Equal(t, 6, _s["version"])
+		assert.Equal(t, "1.9.4", _s["nginx_version"])
 	}
 
 	s1e3 := <-c1
 	var s1m3 map[string]interface{}
 	if err := json.Unmarshal([]byte(s1e3.String()), &s1m3); assert.NoError(t, err) {
-		assert.Equal(t, "upstream", s1m3["type"])
+		_p := collector.Ftoi(s1m3)
+		assert.Equal(t, "upstream", _p["type"])
+
+		_s := _p["upstream"].(map[string]interface{})
+		assert.Equal(t, "plus", _s["format"])
+		assert.Equal(t, 6, _s["version"])
+		assert.Equal(t, "1.9.4", _s["nginx_version"])
 	}
 
 	s1e4 := <-c1
 	var s1m4 map[string]interface{}
 	if err := json.Unmarshal([]byte(s1e4.String()), &s1m4); assert.NoError(t, err) {
-		assert.Equal(t, "cache", s1m4["type"])
+		_p := collector.Ftoi(s1m4)
+		assert.Equal(t, "cache", _p["type"])
+
+		_s := _p["cache"].(map[string]interface{})
+		assert.Equal(t, "plus", _s["format"])
+		assert.Equal(t, 6, _s["version"])
+		assert.Equal(t, "1.9.4", _s["nginx_version"])
 	}
 
 	s1e5 := <-c1
 	var s1m5 map[string]interface{}
 	if err := json.Unmarshal([]byte(s1e5.String()), &s1m5); assert.NoError(t, err) {
-		assert.Equal(t, "tcpzone", s1m5["type"])
+		_p := collector.Ftoi(s1m5)
+		assert.Equal(t, "tcpzone", _p["type"])
+
+		_s := _p["tcpzone"].(map[string]interface{})
+		assert.Equal(t, "plus", _s["format"])
+		assert.Equal(t, 6, _s["version"])
+		assert.Equal(t, "1.9.4", _s["nginx_version"])
 	}
 
 	s1e6 := <-c1
 	var s1m6 map[string]interface{}
 	if err := json.Unmarshal([]byte(s1e6.String()), &s1m6); assert.NoError(t, err) {
-		assert.Equal(t, "tcpupstream", s1m6["type"])
+		_p := collector.Ftoi(s1m6)
+		assert.Equal(t, "tcpupstream", _p["type"])
+
+		_s := _p["tcpupstream"].(map[string]interface{})
+		assert.Equal(t, "plus", _s["format"])
+		assert.Equal(t, 6, _s["version"])
+		assert.Equal(t, "1.9.4", _s["nginx_version"])
 	}
 }
