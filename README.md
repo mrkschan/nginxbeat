@@ -40,6 +40,11 @@ GOPATH=<your go path> make test
 Nginxbeat only exports a single type of document. Though, the properties in the document varies according to the configured Nginx status page.
 
 - `type: nginx` holds either Nginx stub status or Nginx Plus status
+- `type: zone` holds Nginx status zone status
+- `type: upstream` holds Nginx upstream group status
+- `type: cache` holds Nginx cache zone status
+- `type: tcpzone` holds Nginx TCP zone status
+- `type: tcpupstream` holds Nginx TCP upstream status
 
 **Sample of Nginx stub status document**
 
@@ -47,6 +52,7 @@ Nginxbeat only exports a single type of document. Though, the properties in the 
 {
     "count": 1,
     "nginx": {
+        "format": "stub",
         "accepts": 10660,
         "active": 443,
         "current": 333,
@@ -70,6 +76,7 @@ Nginxbeat only exports a single type of document. Though, the properties in the 
     "@timestamp": "2015-11-25T14:55:50.396Z",
     "count": 1,
     "nginx": {
+        "format": "plus",
         "address": "206.251.255.64",
         "connections": {
             "accepted": 20293854,
@@ -106,6 +113,7 @@ Nginxbeat only exports a single type of document. Though, the properties in the 
     "shipper": "vm-nginxbeat",
     "type": "zone",
     "zone": {
+        "format": "plus",
         "discarded": 73,
         "name": "hg.nginx.org",
         "nginx_version": "1.9.4",
@@ -131,6 +139,7 @@ Nginxbeat only exports a single type of document. Though, the properties in the 
     "shipper": "vm-nginxbeat",
     "type": "upstream",
     "upstream": {
+        "format": "plus",
         "keepalive": 0,
         "name": "demo-backend",
         "nginx_version": "1.9.4",
@@ -171,6 +180,7 @@ Nginxbeat only exports a single type of document. Though, the properties in the 
 {
     "@timestamp": "2015-11-25T14:55:50.396Z",
     "cache": {
+        "format": "plus",
         "bypass": {
             "bytes": 7630800604,
             "bytes_written": 7630793856,
@@ -222,6 +232,7 @@ Nginxbeat only exports a single type of document. Though, the properties in the 
     "count": 1,
     "shipper": "vm-nginxbeat",
     "tcpzone": {
+        "format": "plus",
         "connections": 361666,
         "name": "postgresql_loadbalancer",
         "nginx_version": "1.9.4",
@@ -238,6 +249,7 @@ Nginxbeat only exports a single type of document. Though, the properties in the 
     "count": 1,
     "shipper": "vm-nginxbeat",
     "tcpupstream": {
+        "format": "plus",
         "name": "postgresql_backends",
         "nginx_version": "1.9.4",
         "peers": [{

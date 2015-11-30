@@ -12,6 +12,11 @@ following categories:
 
 * <<exported-fields-env>>
 * <<exported-fields-nginx>>
+* <<exported-fields-zone>>
+* <<exported-fields-upstream>>
+* <<exported-fields-cache>>
+* <<exported-fields-tcpzone>>
+* <<exported-fields-tcpupstream>>
 
 [[exported-fields-env]]
 === Common fields fields
@@ -61,6 +66,13 @@ Name of the shipper sending the statistics
 
 Contains Nginx status. Details that you can get by reading the Nginx stub status page.
 
+
+
+==== format
+
+type: string
+
+Format of the status data set.
 
 
 ==== active

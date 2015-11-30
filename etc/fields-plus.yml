@@ -50,6 +50,12 @@ nginx:
   description: >
     Contains Nginx status. Details that you can get by reading the Nginx Plus status page.
   fields:
+    - name: format
+      type: string
+      description: >
+        Format of the status data set.
+
+  fields:
     - name: version
       type: int
       description: >
@@ -157,6 +163,11 @@ zone:
       description: >
         The name of the server zone.
 
+    - name: format
+      type: string
+      description: >
+        Format of the status data set.
+
     - name: version
       type: int
       description: >
@@ -234,6 +245,11 @@ upstream:
       type: string
       description: >
         The name of the upstream group.
+
+    - name: format
+      type: string
+      description: >
+        Format of the status data set.
 
     - name: version
       type: int
@@ -422,6 +438,11 @@ cache:
       description: >
         The name of the cache zone.
 
+    - name: format
+      type: string
+      description: >
+        Format of the status data set.
+
     - name: version
       type: int
       description: >
@@ -525,6 +546,11 @@ tcpzone:
       description: >
         The name of the TCP zone.
 
+    - name: format
+      type: string
+      description: >
+        Format of the status data set.
+
     - name: version
       type: int
       description: >
@@ -564,6 +590,11 @@ tcpupstream:
       type: string
       description: >
         The name of the TCP upstream group.
+
+    - name: format
+      type: string
+      description: >
+        Format of the status data set.
 
     - name: version
       type: int

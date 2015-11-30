@@ -213,6 +213,13 @@ type: string
 The name of the server zone.
 
 
+==== format
+
+type: string
+
+Format of the status data set.
+
+
 ==== version
 
 type: int
@@ -319,6 +326,13 @@ Contains Nginx upstream group status. Details that you can get by reading the Ng
 type: string
 
 The name of the upstream group.
+
+
+==== format
+
+type: string
+
+Format of the status data set.
 
 
 ==== version
@@ -578,6 +592,13 @@ type: string
 The name of the cache zone.
 
 
+==== format
+
+type: string
+
+Format of the status data set.
+
+
 ==== version
 
 type: int
@@ -726,6 +747,13 @@ type: string
 The name of the TCP zone.
 
 
+==== format
+
+type: string
+
+Format of the status data set.
+
+
 ==== version
 
 type: int
@@ -780,6 +808,13 @@ Contains Nginx TCP upstream status. Details that you can get by reading the Ngin
 type: string
 
 The name of the TCP upstream group.
+
+
+==== format
+
+type: string
+
+Format of the status data set.
 
 
 ==== version
