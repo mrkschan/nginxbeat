@@ -93,7 +93,7 @@ func (nb *Nginxbeat) Run(b *beat.Beat) error {
 	logp.Debug(selector, "Run nginxbeat")
 
 	for _, u := range nb.urls {
-		go func() {
+		go func(u *url.URL) {
 			var c collector.Collector
 			var p publisher.Publisher
 
@@ -134,7 +134,7 @@ func (nb *Nginxbeat) Run(b *beat.Beat) error {
 			}
 
 		GotoFinish:
-		}()
+		}(u)
 	}
 
 	<-nb.done
