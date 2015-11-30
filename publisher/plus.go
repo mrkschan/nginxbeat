@@ -43,10 +43,10 @@ func (p *PlusPublisher) Publish(s map[string]interface{}) {
 
 	buf := []common.MapStr{}
 
-	s["format"] = format
 	buf = append(buf, common.MapStr{
 		"@timestamp": now,
 		"type":       "nginx",
+		"format":     format,
 		"nginx":      s,
 	})
 
@@ -54,11 +54,11 @@ func (p *PlusPublisher) Publish(s map[string]interface{}) {
 		m := i.(map[string]interface{})
 		m["version"] = version
 		m["nginx_version"] = nginxVersion
-		m["format"] = format
 
 		buf = append(buf, common.MapStr{
 			"@timestamp": now,
 			"type":       "zone",
+			"format":     format,
 			"zone":       m,
 		})
 	}
@@ -67,11 +67,11 @@ func (p *PlusPublisher) Publish(s map[string]interface{}) {
 		m := i.(map[string]interface{})
 		m["version"] = version
 		m["nginx_version"] = nginxVersion
-		m["format"] = format
 
 		buf = append(buf, common.MapStr{
 			"@timestamp": now,
 			"type":       "upstream",
+			"format":     format,
 			"upstream":   m,
 		})
 	}
@@ -80,11 +80,11 @@ func (p *PlusPublisher) Publish(s map[string]interface{}) {
 		m := i.(map[string]interface{})
 		m["version"] = version
 		m["nginx_version"] = nginxVersion
-		m["format"] = format
 
 		buf = append(buf, common.MapStr{
 			"@timestamp": now,
 			"type":       "cache",
+			"format":     format,
 			"cache":      m,
 		})
 	}
@@ -93,11 +93,11 @@ func (p *PlusPublisher) Publish(s map[string]interface{}) {
 		m := i.(map[string]interface{})
 		m["version"] = version
 		m["nginx_version"] = nginxVersion
-		m["format"] = format
 
 		buf = append(buf, common.MapStr{
 			"@timestamp": now,
 			"type":       "tcpzone",
+			"format":     format,
 			"tcpzone":    m,
 		})
 	}
@@ -106,11 +106,11 @@ func (p *PlusPublisher) Publish(s map[string]interface{}) {
 		m := i.(map[string]interface{})
 		m["version"] = version
 		m["nginx_version"] = nginxVersion
-		m["format"] = format
 
 		buf = append(buf, common.MapStr{
 			"@timestamp":  now,
 			"type":        "tcpupstream",
+			"format":      format,
 			"tcpupstream": m,
 		})
 	}

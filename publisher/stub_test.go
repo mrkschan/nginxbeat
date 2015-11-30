@@ -38,8 +38,6 @@ func TestStubPublisher(t *testing.T) {
 	var s1m1 map[string]interface{}
 	if err := json.Unmarshal([]byte(s1e1.String()), &s1m1); assert.NoError(t, err) {
 		assert.Equal(t, "nginx", s1m1["type"])
-
-		_s := s1m1["nginx"].(map[string]interface{})
-		assert.Equal(t, "stub", _s["format"])
+		assert.Equal(t, "stub", s1m1["format"])
 	}
 }

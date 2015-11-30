@@ -21,10 +21,10 @@ func NewStubPublisher(c publisher.Client) *StubPublisher {
 func (p *StubPublisher) Publish(s map[string]interface{}) {
 	const format = "stub"
 
-	s["format"] = format
 	p.client.PublishEvent(common.MapStr{
 		"@timestamp": common.Time(time.Now()),
 		"type":       "nginx",
+		"format":     format,
 		"nginx":      s,
 	})
 }
