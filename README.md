@@ -28,7 +28,7 @@ export GO15VENDOREXPERIMENT=1
 GOPATH=<your go path> make
 
 # Test
-GOPATH=<your go path> make test
+GOPATH=<your go path> make unit-tests
 
 # Run
 ./nginxbeat -c etc/nginxbeat.yml
