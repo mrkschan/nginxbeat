@@ -8,7 +8,7 @@ import (
 	"regexp"
 	"strconv"
 
-	"github.com/elastic/libbeat/logp"
+	"github.com/elastic/beats/libbeat/logp"
 )
 
 // StubCollector is a Collector that collects Nginx stub status page.
