@@ -5,4 +5,8 @@ go:
 
 sudo: false
 
-script: make test
+install:
+  - go get github.com/tools/godep
+  - godep restore
+
+script: make unit-tests
