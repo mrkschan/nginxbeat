@@ -3,8 +3,8 @@ package publisher
 import (
 	"time"
 
-	"github.com/elastic/libbeat/common"
-	"github.com/elastic/libbeat/publisher"
+	"github.com/elastic/beats/libbeat/common"
+	"github.com/elastic/beats/libbeat/publisher"
 )
 
 // StubPublisher is a Publisher that publishes Nginx Stub status.

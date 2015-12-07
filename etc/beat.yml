@@ -1,0 +1,15 @@
+################### Nginxbeat Configuration Example #########################
+
+############################# Input ############################################
+input:
+  # List of URLs to Nginx status page.
+  # E.g. "http://127.0.0.1:8080/status#stub", "http://demo.nginx.com/status#plus"
+  # Defaults to ["http://127.0.0.1:8080/status#stub"].
+  urls:
+    - http://127.0.0.1:8080/status#stub
+    - http://127.0.0.1:8081/status#stub
+    - http://demo.nginx.com/status#plus
+
+  # In seconds, defines how often to read statistics.
+  # Defaults to 10s.
+  period: 10
