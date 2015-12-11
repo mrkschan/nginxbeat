@@ -35,11 +35,11 @@ Nginxbeat only exports several types of document. The properties in the document
 
 - `type: stub` holds Nginx stub status
 - `type: plus` holds Nginx Plus status
-- `type: zone` holds Nginx status zone status
-- `type: upstream` holds Nginx upstream group status
-- `type: cache` holds Nginx cache zone status
-- `type: tcpzone` holds Nginx TCP zone status
-- `type: tcpupstream` holds Nginx TCP upstream status
+- `type: zone` holds Nginx Plus status zone status
+- `type: upstream` holds Nginx Plus upstream group status
+- `type: cache` holds Nginx Plus cache zone status
+- `type: tcpzone` holds Nginx Plus TCP zone status
+- `type: tcpupstream` holds Nginx Plus TCP upstream status
 
 **Sample of Nginx stub status document**
 
