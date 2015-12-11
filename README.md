@@ -45,22 +45,25 @@ Nginxbeat only exports several types of document. The properties in the document
 
 ```
 {
-    "count": 1,
-    "stub": {
-        "accepts": 10660,
-        "active": 443,
-        "current": 333,
-        "dropped": 0,
-        "handled": 10660,
-        "reading": 212,
-        "requests": 16882,
-        "waiting": 110,
-        "writing": 121
+    "@timestamp": "2015-12-11T13:25:14.667Z",
+    "beat": {
+        "hostname": "vm-nginxbeat",
+        "name": "vm-nginxbeat"
     },
-    "shipper": "vm-nginxbeat",
-    "@timestamp": "2015-11-01T14:25:42.776Z",
+    "count": 1,
+    "source": "http://127.0.0.1:8080/status#stub",
     "type": "stub",
-    "source": "http://localhost:8000/status#stub"
+    "stub": {
+        "accepts": 4,
+        "active": 2,
+        "current": 4,
+        "dropped": 0,
+        "handled": 4,
+        "reading": 0,
+        "requests": 4,
+        "waiting": 1,
+        "writing": 1
+    }
 }
 ```
 
@@ -68,38 +71,41 @@ Nginxbeat only exports several types of document. The properties in the document
 
 ```
 {
-    "@timestamp": "2015-11-25T14:55:50.396Z",
+    "@timestamp": "2015-12-11T13:25:14.978Z",
+    "beat": {
+        "hostname": "vm-nginxbeat",
+        "name": "vm-nginxbeat"
+    },
     "count": 1,
+    "source": "http://demo.nginx.com/status#plus",
+    "type": "plus",
     "plus": {
         "address": "206.251.255.64",
         "connections": {
-            "accepted": 20293854,
-            "active": 7,
+            "accepted": 816383,
+            "active": 4,
             "dropped": 0,
-            "idle": 32
+            "idle": 24
         },
-        "generation": 16,
-        "load_timestamp": 1448100000394,
+        "generation": 1,
+        "load_timestamp": 1449672299104,
         "nginx_version": "1.9.4",
-        "pid": 70469,
+        "pid": 22709,
         "processes": {
             "respawned": 0
         },
         "requests": {
-            "current": 7,
-            "total": 45834498
+            "current": 3,
+            "total": 2558202
         },
         "ssl": {
-            "handshakes": 61215,
-            "handshakes_failed": 7429,
-            "session_reuses": 7799
+            "handshakes": 22321,
+            "handshakes_failed": 7985,
+            "session_reuses": 4800
         },
-        "timestamp": 1448463350114,
+        "timestamp": 1449840314663,
         "version": 6
-    },
-    "shipper": "vm-nginxbeat",
-    "type": "plus",
-    "source": "http://demo.nginx.com/status#plus"
+    }
 }
 ```
 
@@ -107,27 +113,30 @@ Nginxbeat only exports several types of document. The properties in the document
 
 ```
 {
-    "@timestamp": "2015-11-25T14:55:50.396Z",
+    "@timestamp": "2015-12-11T13:25:14.978Z",
+    "beat": {
+        "hostname": "vm-nginxbeat",
+        "name": "vm-nginxbeat"
+    },
     "count": 1,
-    "shipper": "vm-nginxbeat",
-    "type": "zone",
     "source": "http://demo.nginx.com/status#plus",
+    "type": "zone",
     "zone": {
-        "discarded": 73,
-        "name": "hg.nginx.org",
+        "discarded": 2280,
+        "name": "trac.nginx.org",
         "nginx_version": "1.9.4",
         "processing": 0,
-        "received": 29203365,
-        "requests": 94029,
+        "received": 47296049,
+        "requests": 141060,
         "responses": {
             "1xx": 0,
-            "2xx": 87003,
-            "3xx": 5204,
-            "4xx": 1217,
-            "5xx": 532,
-            "total": 93956
+            "2xx": 78270,
+            "3xx": 57124,
+            "4xx": 3149,
+            "5xx": 237,
+            "total": 138780
         },
-        "sent": 4108440100,
+        "sent": 2415440333,
         "version": 6
     }
 }
@@ -137,11 +146,14 @@ Nginxbeat only exports several types of document. The properties in the document
 
 ```
 {
-    "@timestamp": "2015-11-25T14:55:50.396Z",
+    "@timestamp": "2015-12-11T13:25:14.978Z",
+    "beat": {
+        "hostname": "vm-nginxbeat",
+        "name": "vm-nginxbeat"
+    },
     "count": 1,
-    "shipper": "vm-nginxbeat",
-    "type": "upstream",
     "source": "http://demo.nginx.com/status#plus",
+    "type": "upstream",
     "upstream": {
         "keepalive": 0,
         "name": "demo-backend",
@@ -153,7 +165,7 @@ Nginxbeat only exports several types of document. The properties in the document
             "downtime": 0,
             "fails": 0,
             "health_checks": {
-                "checks": 361666,
+                "checks": 167454,
                 "fails": 0,
                 "last_passed": true,
                 "unhealthy": 0
@@ -185,35 +197,38 @@ Nginxbeat only exports several types of document. The properties in the document
 
 ```
 {
-    "@timestamp": "2015-11-25T14:55:50.396Z",
+    "@timestamp": "2015-12-11T13:25:14.978Z",
+    "beat": {
+        "hostname": "vm-nginxbeat",
+        "name": "vm-nginxbeat"
+    },
     "count": 1,
-    "shipper": "vm-nginxbeat",
-    "type": "cache",
     "source": "http://demo.nginx.com/status#plus",
+    "type": "cache",
     "cache": {
         "bypass": {
-            "bytes": 7630800604,
-            "bytes_written": 7630793856,
-            "responses": 172960,
-            "responses_written": 172931
+            "bytes": 505700919,
+            "bytes_written": 505700919,
+            "responses": 10430,
+            "responses_written": 10430
         },
         "cold": false,
         "expired": {
-            "bytes": 9666071646,
-            "bytes_written": 9572182461,
-            "responses": 128922,
-            "responses_written": 124066
+            "bytes": 313906093,
+            "bytes_written": 309450949,
+            "responses": 7591,
+            "responses_written": 7308
         },
         "hit": {
-            "bytes": 493360022371,
-            "responses": 790197
+            "bytes": 426450804,
+            "responses": 39078
         },
         "max_size": 536870912,
         "miss": {
-            "bytes": 56916438362,
-            "bytes_written": 26602168664,
-            "responses": 1509079,
-            "responses_written": 928035
+            "bytes": 3385601257,
+            "bytes_written": 1344694835,
+            "responses": 68405,
+            "responses_written": 30029
         },
         "name": "http_cache",
         "nginx_version": "1.9.4",
@@ -221,7 +236,7 @@ Nginxbeat only exports several types of document. The properties in the document
             "bytes": 0,
             "responses": 0
         },
-        "size": 530309120,
+        "size": 532258816,
         "stale": {
             "bytes": 0,
             "responses": 0
@@ -239,18 +254,21 @@ Nginxbeat only exports several types of document. The properties in the document
 
 ```
 {
-    "@timestamp": "2015-11-25T14:55:50.396Z",
+    "@timestamp": "2015-12-11T13:25:14.978Z",
+    "beat": {
+        "hostname": "vm-nginxbeat",
+        "name": "vm-nginxbeat"
+    },
     "count": 1,
-    "shipper": "vm-nginxbeat",
-    "type": "tcpzone",
     "source": "http://demo.nginx.com/status#plus",
+    "type": "tcpzone",
     "tcpzone": {
-        "connections": 361666,
+        "connections": 167454,
         "name": "postgresql_loadbalancer",
         "nginx_version": "1.9.4",
         "processing": 0,
-        "received": 37974930,
-        "sent": 2061658911,
+        "received": 17582670,
+        "sent": 947252523,
         "version": 6
     }
 }
@@ -260,11 +278,14 @@ Nginxbeat only exports several types of document. The properties in the document
 
 ```
 {
-    "@timestamp": "2015-11-25T14:55:50.396Z",
+    "@timestamp": "2015-12-11T13:25:14.978Z",
+    "beat": {
+        "hostname": "vm-nginxbeat",
+        "name": "vm-nginxbeat"
+    },
     "count": 1,
-    "shipper": "vm-nginxbeat",
-    "type": "tcpupstream",
     "source": "http://demo.nginx.com/status#plus",
+    "type": "tcpupstream",
     "tcpupstream": {
         "name": "postgresql_backends",
         "nginx_version": "1.9.4",
@@ -272,93 +293,25 @@ Nginxbeat only exports several types of document. The properties in the document
             "active": 0,
             "backup": false,
             "connect_time": 1,
-            "connections": 120556,
+            "connections": 55818,
             "downstart": 0,
             "downtime": 0,
             "fails": 0,
             "first_byte_time": 1,
             "health_checks": {
-                "checks": 72607,
+                "checks": 33582,
                 "fails": 0,
                 "last_passed": true,
                 "unhealthy": 0
             },
             "id": 0,
             "max_conns": 42,
-            "received": 687223188,
+            "received": 315750682,
             "response_time": 1,
-            "selected": 1448463349000,
-            "sent": 12658380,
+            "selected": 1449840312000,
+            "sent": 5860890,
             "server": "10.0.0.2:15432",
             "state": "up",
-            "unavail": 0,
-            "weight": 1
-        }, {
-            "active": 0,
-            "backup": false,
-            "connect_time": 1,
-            "connections": 120555,
-            "downstart": 0,
-            "downtime": 0,
-            "fails": 0,
-            "first_byte_time": 1,
-            "health_checks": {
-                "checks": 72607,
-                "fails": 0,
-                "last_passed": true,
-                "unhealthy": 0
-            },
-            "id": 1,
-            "received": 687217775,
-            "response_time": 1,
-            "selected": 1448463347000,
-            "sent": 12658275,
-            "server": "10.0.0.2:15433",
-            "state": "up",
-            "unavail": 0,
-            "weight": 1
-        }, {
-            "active": 0,
-            "backup": false,
-            "connect_time": 1,
-            "connections": 120555,
-            "downstart": 0,
-            "downtime": 0,
-            "fails": 0,
-            "first_byte_time": 1,
-            "health_checks": {
-                "checks": 72607,
-                "fails": 0,
-                "last_passed": true,
-                "unhealthy": 0
-            },
-            "id": 2,
-            "received": 687217948,
-            "response_time": 1,
-            "selected": 1448463348000,
-            "sent": 12658275,
-            "server": "10.0.0.2:15434",
-            "state": "up",
-            "unavail": 0,
-            "weight": 1
-        }, {
-            "active": 0,
-            "backup": false,
-            "connections": 0,
-            "downstart": 0,
-            "downtime": 0,
-            "fails": 0,
-            "health_checks": {
-                "checks": 0,
-                "fails": 0,
-                "unhealthy": 0
-            },
-            "id": 3,
-            "received": 0,
-            "selected": 0,
-            "sent": 0,
-            "server": "10.0.0.2:15435",
-            "state": "down",
             "unavail": 0,
             "weight": 1
         }],
