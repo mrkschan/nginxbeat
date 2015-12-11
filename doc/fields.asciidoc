@@ -4,10 +4,10 @@ This file is generated! See etc/fields.yml and scripts/generate_field_docs.py
 ////
 
 [[exported-fields]]
-== Exported fields
+== Exported Fields
 
 This document describes the fields that are exported by the
-nginxbeat. They are grouped in the
+Nginxbeat. They are grouped in the
 following categories:
 
 * <<exported-fields-env>>
@@ -20,7 +20,7 @@ following categories:
 * <<exported-fields-tcpupstream>>
 
 [[exported-fields-env]]
-=== Common fields fields
+=== Common Fields
 
 Contains common fields available in all event types.
 
@@ -73,7 +73,7 @@ Source of the data set.
 
 
 [[exported-fields-stub]]
-=== Nginx stub status fields
+=== Nginx stub status Fields
 
 Contains Nginx stub status. Details that you can get by reading the Nginx stub status page.
 
@@ -143,7 +143,7 @@ The current number of idle client connections waiting for a request.
 
 
 [[exported-fields-plus]]
-=== Nginx Plus status fields
+=== Nginx Plus status Fields
 
 Contains Nginx Plus status. Details that you can get by reading the Nginx Plus status page.
 
@@ -198,7 +198,7 @@ type: int
 The ID of the worker process that handled status request.
 
 
-=== processes fields
+=== processes Fields
 
 
 ==== respawned
@@ -208,7 +208,7 @@ type: int
 The total number of abnormally terminated and respawned child processes.
 
 
-=== connections fields
+=== connections Fields
 
 
 ==== accepted
@@ -239,7 +239,7 @@ type: int
 The current number of idle client connections.
 
 
-=== ssl fields
+=== ssl Fields
 
 
 ==== handshakes
@@ -263,7 +263,7 @@ type: int
 The total number of session reuses during SSL handshake.
 
 
-=== requests fields
+=== requests Fields
 
 
 ==== total
@@ -281,7 +281,7 @@ The current number of client requests.
 
 
 [[exported-fields-zone]]
-=== Nginx status zone status fields
+=== Nginx status zone status Fields
 
 Contains Nginx server zone status. Details that you can get by reading the Nginx Plus status page.
 
@@ -322,7 +322,7 @@ type: int
 The total number of client requests received from clients.
 
 
-=== responses fields
+=== responses Fields
 
 
 ==== total
@@ -389,7 +389,7 @@ The total number of bytes sent to clients.
 
 
 [[exported-fields-upstream]]
-=== Nginx upstream group status fields
+=== Nginx upstream group status Fields
 
 Contains Nginx upstream group status. Details that you can get by reading the Nginx Plus status page.
 
@@ -416,7 +416,7 @@ type: int
 Version of Nginx.
 
 
-=== peers fields
+=== peers Fields
 
 
 ==== id
@@ -475,7 +475,7 @@ type: int
 The total number of client requests forwarded to this server.
 
 
-=== responses fields
+=== responses Fields
 
 
 ==== total
@@ -548,7 +548,7 @@ type: int
 How many times the server became unavailable for client requests (state "unavail") due to the number of unsuccessful attempts reaching the max_fails threshold.
 
 
-=== health_checks fields
+=== health_checks Fields
 
 
 ==== checks
@@ -621,7 +621,7 @@ type: int
 The current number of idle keepalive connections.
 
 
-=== queue fields
+=== queue Fields
 
 
 ==== size
@@ -646,7 +646,7 @@ The total number of requests rejected due to the queue overflow.
 
 
 [[exported-fields-cache]]
-=== Nginx cache zone status fields
+=== Nginx cache zone status Fields
 
 Contains Nginx cache zone status. Details that you can get by reading the Nginx Plus status page.
 
@@ -694,7 +694,7 @@ type: boolean
 A boolean value indicating whether the "cache loader" process is still loading data from disk into the cache.
 
 
-=== hit fields
+=== hit Fields
 
 
 ==== responses
@@ -711,7 +711,7 @@ type: int
 The total number of bytes read from the cache.
 
 
-=== stale fields
+=== stale Fields
 
 
 ==== responses
@@ -728,7 +728,7 @@ type: int
 The total number of bytes read from the cache.
 
 
-=== updating fields
+=== updating Fields
 
 
 ==== responses
@@ -745,7 +745,7 @@ type: int
 The total number of bytes read from the cache.
 
 
-=== revalidated fields
+=== revalidated Fields
 
 
 ==== responses
@@ -762,7 +762,7 @@ type: int
 The total number of bytes read from the cache.
 
 
-=== miss fields
+=== miss Fields
 
 
 ==== responses
@@ -794,7 +794,7 @@ The total number of bytes written to the cache.
 
 
 [[exported-fields-tcpzone]]
-=== Nginx TCP zone status fields
+=== Nginx TCP zone status Fields
 
 Contains Nginx TCP zone status. Details that you can get by reading the Nginx Plus status page.
 
@@ -850,7 +850,7 @@ The total number of bytes sent to clients.
 
 
 [[exported-fields-tcpupstream]]
-=== Nginx TCP upstream status fields
+=== Nginx TCP upstream status Fields
 
 Contains Nginx TCP upstream status. Details that you can get by reading the Nginx Plus status page.
 
@@ -877,7 +877,7 @@ type: int
 Version of Nginx.
 
 
-=== peers fields
+=== peers Fields
 
 
 ==== id
@@ -978,7 +978,7 @@ type: int
 How many times the server became unavailable for client requests (state "unavail") due to the number of unsuccessful attempts reaching the max_fails threshold.
 
 
-=== health_checks fields
+=== health_checks Fields
 
 
 ==== checks

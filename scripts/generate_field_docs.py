@@ -10,7 +10,7 @@ import sys
 import yaml
 
 SECTIONS = [
-    ("env", "Common fields"),
+    ("env", "Common"),
     ("stub", "Nginx stub status"),
     ("plus", "Nginx Plus status"),
     ("zone", "Nginx status zone status"),
@@ -25,7 +25,7 @@ def document_fields(output, section):
 
     if "anchor" in section:
         output.write("[[exported-fields-{}]]\n".format(section["anchor"]))
-    output.write("=== {} fields\n\n".format(section["name"]))
+    output.write("=== {} Fields\n\n".format(section["name"]))
 
     if "type" in section and section["type"] == "nested":
         output.write("type: {}\n\n".format(section["type"]))
@@ -75,10 +75,10 @@ This file is generated! See etc/fields.yml and scripts/generate_field_docs.py
 ////
 
 [[exported-fields]]
-== Exported fields
+== Exported Fields
 
 This document describes the fields that are exported by the
-nginxbeat. They are grouped in the
+Nginxbeat. They are grouped in the
 following categories:
 
 """)
