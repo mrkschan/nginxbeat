@@ -19,13 +19,10 @@ func NewStubPublisher(c publisher.Client) *StubPublisher {
 
 // Publish Nginx Stub status.
 func (p *StubPublisher) Publish(s map[string]interface{}, source string) {
-	const format = "stub"
-
 	p.client.PublishEvent(common.MapStr{
 		"@timestamp": common.Time(time.Now()),
-		"type":       "nginx",
-		"format":     format,
+		"type":       "stub",
 		"source":     source,
-		"nginx":      s,
+		"stub":       s,
 	})
 }
