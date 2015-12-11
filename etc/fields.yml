@@ -23,7 +23,8 @@ env:
 
     - name: type
       description: >
-        Set to "nginx" to specify that are Nginx status.
+        Set to "stub" to specify that are Nginx stub status.
+        Set to "plus" to specify that are Nginx Plus status.
         Set to "zone" to specify that are Nginx server zone status.
         Set to "upstream" to specify that are Nginx upstream group status.
         Set to "cache" to specify that are Nginx cache zone status.
@@ -45,20 +46,65 @@ env:
       description: >
         Name of the shipper sending the statistics
 
-    - name: format
-      type: string
-      description: >
-        Format of the status data set.
-
     - name: source
       type: string
       description: >
         Source of the data set.
 
-nginx:
+stub:
   type: group
   description: >
-    Contains Nginx status. Details that you can get by reading the Nginx Plus status page.
+    Contains Nginx stub status. Details that you can get by reading the Nginx stub status page.
+  fields:
+    - name: active
+      type: int
+      description: >
+        The current number of active client connections including Waiting connections.
+
+    - name: accepts
+      type: int
+      description: >
+        The total number of accepted client connections.
+
+    - name: handled
+      type: int
+      description: >
+        The total number of handled client connections.
+
+    - name: dropped
+      type: int
+      description: >
+        The total number of dropped client connections.
+
+    - name: requests
+      type: int
+      description: >
+        The total number of client requests.
+
+    - name: current
+      type: int
+      description: >
+        The current number of client requests.
+
+    - name: reading
+      type: int
+      description: >
+        The current number of connections where nginx is reading the request header.
+
+    - name: writing
+      type: int
+      description: >
+        The current number of connections where nginx is writing the response back to the client.
+
+    - name: waiting
+      type: int
+      description: >
+        The current number of idle client connections waiting for a request.
+
+plus:
+  type: group
+  description: >
+    Contains Nginx Plus status. Details that you can get by reading the Nginx Plus status page.
   fields:
     - name: version
       type: int
