@@ -5,11 +5,7 @@ This script generates the ES template file from the fields file.
 
 Example usage:
 
-   python generate_template.py etc/fields-stub.yml etc/nginxbeat-stub.template.json
-
-   or
-
-   python generate_template.py etc/fields-plus.yml etc/nginxbeat-plus.template.json
+   python generate_template.py etc/fields.yml etc/nginxbeat.template.json
 """
 
 import sys

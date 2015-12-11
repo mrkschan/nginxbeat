@@ -7,16 +7,10 @@ Nginxbeat is the Beat used for Nginx monitoring. It is a lightweight agent that 
 
 ## Elasticsearch template
 
-To apply nginxbeat template for Nginx stub status:
+To apply nginxbeat template for Nginx status:
 
 ```
-curl -XPUT 'http://localhost:9200/_template/nginxbeat' -d@etc/nginxbeat-stub.template.json
-```
-
-To apply nginxbeat template for Nginx Plus status:
-
-```
-curl -XPUT 'http://localhost:9200/_template/nginxbeat' -d@etc/nginxbeat-plus.template.json
+curl -XPUT 'http://localhost:9200/_template/nginxbeat' -d@etc/nginxbeat.template.json
 ```
 
 
@@ -37,9 +31,10 @@ GOPATH=<your go path> make unit-tests
 
 ## Exported fields
 
-Nginxbeat only exports a single type of document. Though, the properties in the document varies according to the configured Nginx status page.
+Nginxbeat only exports several types of document. The properties in the document varies according to the configured Nginx status page.
 
-- `type: nginx` holds either Nginx stub status or Nginx Plus status
+- `type: stub` holds Nginx stub status
+- `type: plus` holds Nginx Plus status
 - `type: zone` holds Nginx status zone status
 - `type: upstream` holds Nginx upstream group status
 - `type: cache` holds Nginx cache zone status
@@ -51,7 +46,7 @@ Nginxbeat only exports a single type of document. Though, the properties in the 
 ```
 {
     "count": 1,
-    "nginx": {
+    "stub": {
         "accepts": 10660,
         "active": 443,
         "current": 333,
@@ -64,8 +59,7 @@ Nginxbeat only exports a single type of document. Though, the properties in the 
     },
     "shipper": "vm-nginxbeat",
     "@timestamp": "2015-11-01T14:25:42.776Z",
-    "type": "nginx",
-    "format": "stub",
+    "type": "stub",
     "source": "http://localhost:8000/status#stub"
 }
 ```
@@ -76,7 +70,7 @@ Nginxbeat only exports a single type of document. Though, the properties in the 
 {
     "@timestamp": "2015-11-25T14:55:50.396Z",
     "count": 1,
-    "nginx": {
+    "plus": {
         "address": "206.251.255.64",
         "connections": {
             "accepted": 20293854,
@@ -104,17 +98,19 @@ Nginxbeat only exports a single type of document. Though, the properties in the 
         "version": 6
     },
     "shipper": "vm-nginxbeat",
-    "type": "nginx",
-    "format": "plus",
+    "type": "plus",
     "source": "http://demo.nginx.com/status#plus"
 }
+```
 
+**Sample of Nginx Plus zone status document**
+
+```
 {
     "@timestamp": "2015-11-25T14:55:50.396Z",
     "count": 1,
     "shipper": "vm-nginxbeat",
     "type": "zone",
-    "format": "plus",
     "source": "http://demo.nginx.com/status#plus",
     "zone": {
         "discarded": 73,
@@ -135,13 +131,16 @@ Nginxbeat only exports a single type of document. Though, the properties in the 
         "version": 6
     }
 }
+```
 
+**Sample of Nginx Plus upstream status document**
+
+```
 {
     "@timestamp": "2015-11-25T14:55:50.396Z",
     "count": 1,
     "shipper": "vm-nginxbeat",
     "type": "upstream",
-    "format": "plus",
     "source": "http://demo.nginx.com/status#plus",
     "upstream": {
         "keepalive": 0,
@@ -180,9 +179,17 @@ Nginxbeat only exports a single type of document. Though, the properties in the 
         "version": 6
     }
 }
+```
 
+**Sample of Nginx Plus cache status document**
+
+```
 {
     "@timestamp": "2015-11-25T14:55:50.396Z",
+    "count": 1,
+    "shipper": "vm-nginxbeat",
+    "type": "cache",
+    "source": "http://demo.nginx.com/status#plus",
     "cache": {
         "bypass": {
             "bytes": 7630800604,
@@ -224,18 +231,19 @@ Nginxbeat only exports a single type of document. Though, the properties in the 
             "responses": 0
         },
         "version": 6
-    },
-    "count": 1,
-    "shipper": "vm-nginxbeat",
-    "type": "cache",
-    "format": "plus",
-    "source": "http://demo.nginx.com/status#plus"
+    }
 }
+```
 
+**Sample of Nginx Plus TCP zone status document**
+
+```
 {
     "@timestamp": "2015-11-25T14:55:50.396Z",
     "count": 1,
     "shipper": "vm-nginxbeat",
+    "type": "tcpzone",
+    "source": "http://demo.nginx.com/status#plus",
     "tcpzone": {
         "connections": 361666,
         "name": "postgresql_loadbalancer",
@@ -244,16 +252,19 @@ Nginxbeat only exports a single type of document. Though, the properties in the 
         "received": 37974930,
         "sent": 2061658911,
         "version": 6
-    },
-    "type": "tcpzone",
-    "format": "plus",
-    "source": "http://demo.nginx.com/status#plus"
+    }
 }
+```
 
+**Sample of Nginx Plus TCP upstream status document**
+
+```
 {
     "@timestamp": "2015-11-25T14:55:50.396Z",
     "count": 1,
     "shipper": "vm-nginxbeat",
+    "type": "tcpupstream",
+    "source": "http://demo.nginx.com/status#plus",
     "tcpupstream": {
         "name": "postgresql_backends",
         "nginx_version": "1.9.4",
@@ -352,9 +363,6 @@ Nginxbeat only exports a single type of document. Though, the properties in the 
             "weight": 1
         }],
         "version": 6
-    },
-    "type": "tcpupstream",
-    "format": "plus",
-    "source": "http://demo.nginx.com/status#plus"
+    }
 }
 ```

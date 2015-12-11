@@ -11,7 +11,8 @@ import yaml
 
 SECTIONS = [
     ("env", "Common fields"),
-    ("nginx", "Nginx status"),
+    ("stub", "Nginx stub status"),
+    ("plus", "Nginx Plus status"),
     ("zone", "Nginx status zone status"),
     ("upstream", "Nginx upstream group status"),
     ("cache", "Nginx cache zone status"),

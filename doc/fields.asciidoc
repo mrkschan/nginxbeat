@@ -11,7 +11,8 @@ nginxbeat. They are grouped in the
 following categories:
 
 * <<exported-fields-env>>
-* <<exported-fields-nginx>>
+* <<exported-fields-stub>>
+* <<exported-fields-plus>>
 * <<exported-fields-zone>>
 * <<exported-fields-upstream>>
 * <<exported-fields-cache>>
@@ -42,7 +43,7 @@ The timestamp when the measurements were taken. The precision is in milliseconds
 
 required: True
 
-Set to "nginx" to specify that are Nginx status. Set to "zone" to specify that are Nginx server zone status. Set to "upstream" to specify that are Nginx upstream group status. Set to "cache" to specify that are Nginx cache zone status. Set to "tcpupstream" to specify that are Nginx TCP upstream status. Set to "tcpzone" to specify that are Nginx TCP zone status.
+Set to "stub" to specify that are Nginx stub status. Set to "plus" to specify that are Nginx Plus status. Set to "zone" to specify that are Nginx server zone status. Set to "upstream" to specify that are Nginx upstream group status. Set to "cache" to specify that are Nginx cache zone status. Set to "tcpupstream" to specify that are Nginx TCP upstream status. Set to "tcpzone" to specify that are Nginx TCP zone status.
 
 
 ==== count
@@ -61,13 +62,6 @@ type: string
 Name of the shipper sending the statistics
 
 
-==== format
-
-type: string
-
-Format of the status data set.
-
-
 ==== source
 
 type: string
@@ -75,10 +69,80 @@ type: string
 Source of the data set.
 
 
-[[exported-fields-nginx]]
-=== Nginx status fields
+[[exported-fields-stub]]
+=== Nginx stub status fields
 
-Contains Nginx status. Details that you can get by reading the Nginx Plus status page.
+Contains Nginx stub status. Details that you can get by reading the Nginx stub status page.
+
+
+
+==== active
+
+type: int
+
+The current number of active client connections including Waiting connections.
+
+
+==== accepts
+
+type: int
+
+The total number of accepted client connections.
+
+
+==== handled
+
+type: int
+
+The total number of handled client connections.
+
+
+==== dropped
+
+type: int
+
+The total number of dropped client connections.
+
+
+==== requests
+
+type: int
+
+The total number of client requests.
+
+
+==== current
+
+type: int
+
+The current number of client requests.
+
+
+==== reading
+
+type: int
+
+The current number of connections where nginx is reading the request header.
+
+
+==== writing
+
+type: int
+
+The current number of connections where nginx is writing the response back to the client.
+
+
+==== waiting
+
+type: int
+
+The current number of idle client connections waiting for a request.
+
+
+[[exported-fields-plus]]
+=== Nginx Plus status fields
+
+Contains Nginx Plus status. Details that you can get by reading the Nginx Plus status page.
 
 
 
