@@ -19,6 +19,7 @@ curl -XPUT 'http://localhost:9200/_template/nginxbeat' -d@etc/nginxbeat.template
 ```
 # Build
 export GO15VENDOREXPERIMENT=1
+GOPATH=<your go path> godep restore
 GOPATH=<your go path> make
 
 # Test
