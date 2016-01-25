@@ -35,6 +35,28 @@ func TestStubCollector(t *testing.T) {
 	assert.Equal(t, s1["writing"], 1)
 	assert.Equal(t, s1["waiting"], 2)
 
+	// It should report accumlated stats.
+	ts11 := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintln(w, "Active connections: 1")
+		fmt.Fprintln(w, "server accepts handled requests")
+		fmt.Fprintln(w, " 8 7 23")
+		fmt.Fprintln(w, "Reading: 0 Writing: 1 Waiting: 2")
+	}))
+	defer ts11.Close()
+
+	u11, _ := url.Parse(ts11.URL)
+	s11, _ := c1.Collect(*u11)
+
+	assert.Equal(t, s11["active"], 1)
+	assert.Equal(t, s11["accepts"], 8)
+	assert.Equal(t, s11["handled"], 7)
+	assert.Equal(t, s11["dropped"], 1)
+	assert.Equal(t, s11["requests"], 23)
+	assert.Equal(t, s11["current"], 4)
+	assert.Equal(t, s11["reading"], 0)
+	assert.Equal(t, s11["writing"], 1)
+	assert.Equal(t, s11["waiting"], 2)
+
 	// It should handle missing active connections.
 	ts2 := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, "Active connections")
@@ -103,28 +125,6 @@ func TestStubCollector(t *testing.T) {
 	assert.Equal(t, s4["reading"], -1)
 	assert.Equal(t, s4["writing"], -1)
 	assert.Equal(t, s4["waiting"], -1)
-
-	// It should report accumlated stats.
-	ts41 := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintln(w, "Active connections: 1")
-		fmt.Fprintln(w, "server accepts handled requests")
-		fmt.Fprintln(w, " 8 7 23")
-		fmt.Fprintln(w, "Reading: 0 Writing: 1 Waiting: 2")
-	}))
-	defer ts41.Close()
-
-	u41, _ := url.Parse(ts41.URL)
-	s41, _ := c4.Collect(*u41)
-
-	assert.Equal(t, s41["active"], 1)
-	assert.Equal(t, s41["accepts"], 8)
-	assert.Equal(t, s41["handled"], 7)
-	assert.Equal(t, s41["dropped"], 1)
-	assert.Equal(t, s41["requests"], 23)
-	assert.Equal(t, s41["current"], 4)
-	assert.Equal(t, s41["reading"], 0)
-	assert.Equal(t, s41["writing"], 1)
-	assert.Equal(t, s41["waiting"], 2)
 
 	// It should report unexpected status code.
 	ts5 := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
