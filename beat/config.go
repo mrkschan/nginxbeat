@@ -1,4 +1,4 @@
-package main
+package beat
 
 type NginxConfig struct {
 	// URLs to Nginx status page.
