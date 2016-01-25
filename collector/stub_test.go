@@ -12,6 +12,7 @@ import (
 )
 
 func TestStubCollector(t *testing.T) {
+	// It should report stats.
 	ts1 := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, "Active connections: 1")
 		fmt.Fprintln(w, "server accepts handled requests")
@@ -34,6 +35,7 @@ func TestStubCollector(t *testing.T) {
 	assert.Equal(t, s1["writing"], 1)
 	assert.Equal(t, s1["waiting"], 2)
 
+	// It should handle missing active connections.
 	ts2 := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, "Active connections")
 		fmt.Fprintln(w, "server accepts handled requests")
@@ -56,6 +58,7 @@ func TestStubCollector(t *testing.T) {
 	assert.Equal(t, s2["writing"], 1)
 	assert.Equal(t, s2["waiting"], 2)
 
+	// It should handle missing request stats.
 	ts3 := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, "Active connections: 1")
 		fmt.Fprintln(w, "server accepts handled requests")
@@ -78,6 +81,7 @@ func TestStubCollector(t *testing.T) {
 	assert.Equal(t, s3["writing"], 1)
 	assert.Equal(t, s3["waiting"], 2)
 
+	// It should handle missing connection stats.
 	ts4 := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, "Active connections: 1")
 		fmt.Fprintln(w, "server accepts handled requests")
@@ -100,6 +104,7 @@ func TestStubCollector(t *testing.T) {
 	assert.Equal(t, s4["writing"], -1)
 	assert.Equal(t, s4["waiting"], -1)
 
+	// It should report accumlated stats.
 	ts41 := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, "Active connections: 1")
 		fmt.Fprintln(w, "server accepts handled requests")
@@ -121,6 +126,7 @@ func TestStubCollector(t *testing.T) {
 	assert.Equal(t, s41["writing"], 1)
 	assert.Equal(t, s41["waiting"], 2)
 
+	// It should report unexpected status code.
 	ts5 := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "failed", http.StatusInternalServerError)
 	}))
