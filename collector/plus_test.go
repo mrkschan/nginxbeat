@@ -12,6 +12,7 @@ import (
 )
 
 func TestPlusCollector(t *testing.T) {
+	// It should report stats.
 	ts1 := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		payload := `{
 			"version":6,
@@ -113,4 +114,30 @@ func TestPlusCollector(t *testing.T) {
 	stream1 := s1["stream"].(map[string]interface{})
 	assert.IsType(t, []interface{}{}, stream1["server_zones"])
 	assert.IsType(t, []interface{}{}, stream1["upstreams"])
+
+	// It should report unexpected status code.
+	ts2 := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		http.Error(w, "failed", http.StatusInternalServerError)
+	}))
+	defer ts2.Close()
+
+	c2 := &PlusCollector{}
+	u2, _ := url.Parse(ts2.URL)
+	s2, e2 := c2.Collect(*u2)
+
+	assert.Nil(t, s2)
+	assert.EqualError(t, e2, "HTTP500 Internal Server Error")
+
+	// It should report malformed Nginx response.
+	ts3 := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintln(w, "malformed-json")
+	}))
+	defer ts3.Close()
+
+	c3 := &PlusCollector{}
+	u3, _ := url.Parse(ts3.URL)
+	s3, e3 := c3.Collect(*u3)
+
+	assert.Nil(t, s3)
+	assert.Error(t, e3)
 }
