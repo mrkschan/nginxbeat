@@ -120,4 +120,16 @@ func TestStubCollector(t *testing.T) {
 	assert.Equal(t, s41["reading"], 0)
 	assert.Equal(t, s41["writing"], 1)
 	assert.Equal(t, s41["waiting"], 2)
+
+	ts5 := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		http.Error(w, "failed", http.StatusInternalServerError)
+	}))
+	defer ts5.Close()
+
+	c5 := &StubCollector{}
+	u5, _ := url.Parse(ts5.URL)
+	s5, e5 := c5.Collect(*u5)
+
+	assert.Nil(t, s5)
+	assert.EqualError(t, e5, "HTTP500 Internal Server Error")
 }
