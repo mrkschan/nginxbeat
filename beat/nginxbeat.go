@@ -1,4 +1,4 @@
-package main
+package beat
 
 import (
 	"fmt"
@@ -24,6 +24,11 @@ type Nginxbeat struct {
 
 	urls   []*url.URL
 	period time.Duration
+}
+
+// New constructs a new copy of nginxbeat.
+func New() *Nginxbeat {
+	return &Nginxbeat{}
 }
 
 // Config Nginxbeat according to nginxbeat.yml.

@@ -31,7 +31,7 @@ output:
     # IPv6 addresses should always be defined as: https://[2001:db8::1]:9200
     hosts: ["localhost:9200"]
 
-    # Optional protocol and basic auth credentials. These are deprecated.
+    # Optional protocol and basic auth credentials.
     #protocol: "https"
     #username: "admin"
     #password: "s3cr3t"
@@ -111,6 +111,9 @@ output:
 
     # Number of workers per Logstash host.
     #worker: 1
+
+    # Set gzip compression level.
+    #compression_level: 3
 
     # Optional load balance the events between the Logstash hosts
     #loadbalance: true
@@ -195,6 +198,9 @@ shipper:
   # refresh_topology_freq. The default is 15 seconds.
   #topology_expire: 15
 
+  # Internal queue size for single events in processing pipeline
+  #queue_size: 1000
+
   # Configure local GeoIP database support.
   # If no paths are not configured geoip is disabled.
   #geoip:
@@ -206,7 +212,7 @@ shipper:
 ############################# Logging #########################################
 
 # There are three options for the log ouput: syslog, file, stderr.
-# Under Windos systems, the log files are per default sent to the file output,
+# Under Windows systems, the log files are per default sent to the file output,
 # under all other system per default to syslog.
 logging:
 
