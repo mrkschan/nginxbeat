@@ -140,7 +140,7 @@ testsuite:
 # It assumes that some covrage reports already exists, otherwise it will fail
 .PHONY: coverage-report
 coverage-report:
-	python ../libbeat/scripts/aggregate_coverage.py -o ./${COVERAGE_DIR}/full.cov ./${COVERAGE_DIR}
+	python ${GOPATH}/src/github.com/elastic/beats/dev-tools/aggregate_coverage.py -o ./${COVERAGE_DIR}/full.cov ./${COVERAGE_DIR}
 	go tool cover -html=./${COVERAGE_DIR}/full.cov -o ${COVERAGE_DIR}/full.html
 
 # Update expects the most recent version of libbeat in the GOPATH

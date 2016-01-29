@@ -25,6 +25,9 @@ GOPATH=<your go path> make
 # Test
 GOPATH=<your go path> make unit-tests
 
+# Run whole testsuite
+GOPATH=<your go path> make testsuite
+
 # Run
 ./nginxbeat -c nginxbeat.yml
 ```
