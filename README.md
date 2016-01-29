@@ -30,6 +30,9 @@ GOPATH=<your go path> make testsuite
 
 # Run
 ./nginxbeat -c nginxbeat.yml
+
+# Make binaries
+GOPATH=<your go path> make crosscompile
 ```
 
 
