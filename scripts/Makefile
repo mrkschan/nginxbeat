@@ -83,13 +83,14 @@ unit-tests: prepare-tests
 # Run integration tests. Unit tests are run as part of the integration tests. It runs all tests with race detection enabled.
 .PHONY: integration-tests
 integration-tests: prepare-tests
-	$(GOPATH)/bin/gotestcover -race -coverprofile=${COVERAGE_DIR}/integration.cov -covermode=atomic ${BEAT_DIR}/${BEATNAME}/...
+	$(GOPATH)/bin/gotestcover -tags=integration -race -coverprofile=${COVERAGE_DIR}/integration.cov -covermode=atomic ${BEAT_DIR}/${BEATNAME}/...
 
 # Runs the integration inside a virtual environment. This can be run on any docker-machine (local, remote)
 .PHONY: integration-tests-environment
 integration-tests-environment:
 	make prepare-tests
 	make build-image
+	make stop-environment
 	NAME=$$(docker-compose run -d ${BEATNAME} make integration-tests | awk 'END{print}') || exit 1; \
 	echo "docker ${BEATNAME} test container: '$$NAME'"; \
 	docker attach $$NAME; CODE=$$?;\
