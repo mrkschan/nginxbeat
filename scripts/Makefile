@@ -169,7 +169,7 @@ start-environment: stop-environment
 stop-environment:
 	-docker-compose stop
 	-docker-compose rm -f
-	-docker ps -a  | grep ${BEATNAME} | grep Exited | awk '{print $$1}' | xargs docker rm
+	-docker ps -a  | grep ${BEATNAME} | grep Exited | awk '{print $$1}' | xargs -r docker rm
 
 .PHONY: write-environment
 write-environment:
