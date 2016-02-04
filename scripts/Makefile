@@ -77,19 +77,19 @@ prepare-tests:
 # Race is not enabled for unit tests because tests run much slower.
 .PHONY: unit-tests
 unit-tests: prepare-tests
-	#go test -short ./...
-	$(GOPATH)/bin/gotestcover -coverprofile=${COVERAGE_DIR}/unit.cov -short -covermode=atomic ${BEAT_DIR}/${BEATNAME}/...
+	$(GOPATH)/bin/gotestcover -tags=unit -coverprofile=${COVERAGE_DIR}/unit.cov -covermode=atomic ${BEAT_DIR}/${BEATNAME}/...
 
 # Run integration tests. Unit tests are run as part of the integration tests. It runs all tests with race detection enabled.
 .PHONY: integration-tests
 integration-tests: prepare-tests
-	$(GOPATH)/bin/gotestcover -race -coverprofile=${COVERAGE_DIR}/integration.cov -covermode=atomic ${BEAT_DIR}/${BEATNAME}/...
+	$(GOPATH)/bin/gotestcover -tags=integration -race -coverprofile=${COVERAGE_DIR}/integration.cov -covermode=atomic ${BEAT_DIR}/${BEATNAME}/...
 
 # Runs the integration inside a virtual environment. This can be run on any docker-machine (local, remote)
 .PHONY: integration-tests-environment
 integration-tests-environment:
 	make prepare-tests
 	make build-image
+	make stop-environment
 	NAME=$$(docker-compose run -d ${BEATNAME} make integration-tests | awk 'END{print}') || exit 1; \
 	echo "docker ${BEATNAME} test container: '$$NAME'"; \
 	docker attach $$NAME; CODE=$$?;\
@@ -121,6 +121,8 @@ benchmark-tests:
 # Runs all tests and generates the coverage reports
 .PHONY: testsuite
 testsuite:
+	make unit-tests
+
 	# Setups environment if TEST_ENVIRONMENT is set to true
 	if [ $(TEST_ENVIRONMENT) = true ]; then \
 		 make integration-tests-environment; \
@@ -167,7 +169,7 @@ start-environment: stop-environment
 stop-environment:
 	-docker-compose stop
 	-docker-compose rm -f
-	-docker ps -a  | grep ${BEATNAME} | grep Exited | awk '{print $$1}' | xargs docker rm
+	-docker ps -a  | grep ${BEATNAME} | grep Exited | awk '{print $$1}' | xargs -r docker rm
 
 .PHONY: write-environment
 write-environment:

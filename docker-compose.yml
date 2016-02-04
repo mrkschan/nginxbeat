@@ -1,0 +1,29 @@
+elasticsearch-173:
+  image: elasticsearch:1.7.3
+  ports:
+    - "9200:9200"
+kibana-41:
+  image: kibana:4.1
+  ports:
+    - "5601:5601"
+  links:
+    - elasticsearch-173
+  environment:
+    ELASTICSEARCH_URL: "http://elasticsearch-173:9200"
+nginx-19:
+  build: ./testing/service/nginx/
+  ports:
+    - "80:80"
+    - "443:443"
+    - "8080:8080"
+    - "8081:8081"
+nginxbeat:
+  build: .
+  links:
+    - nginx-19
+  volumes:
+    - .:/go/src/github.com/mrkschan/nginxbeat/
+    - ${GOPATH}/src/github.com/elastic/beats:/go/src/github.com/elastic/beats/
+    - ${GOPATH}/src/github.com/stretchr/testify:/go/src/github.com/stretchr/testify/
+  working_dir: /go/src/github.com/mrkschan/nginxbeat/
+  command: make
