@@ -121,6 +121,8 @@ benchmark-tests:
 # Runs all tests and generates the coverage reports
 .PHONY: testsuite
 testsuite:
+	make unit-tests
+
 	# Setups environment if TEST_ENVIRONMENT is set to true
 	if [ $(TEST_ENVIRONMENT) = true ]; then \
 		 make integration-tests-environment; \
