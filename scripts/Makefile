@@ -77,8 +77,7 @@ prepare-tests:
 # Race is not enabled for unit tests because tests run much slower.
 .PHONY: unit-tests
 unit-tests: prepare-tests
-	#go test -short ./...
-	$(GOPATH)/bin/gotestcover -coverprofile=${COVERAGE_DIR}/unit.cov -short -covermode=atomic ${BEAT_DIR}/${BEATNAME}/...
+	$(GOPATH)/bin/gotestcover -tags=unit -coverprofile=${COVERAGE_DIR}/unit.cov -covermode=atomic ${BEAT_DIR}/${BEATNAME}/...
 
 # Run integration tests. Unit tests are run as part of the integration tests. It runs all tests with race detection enabled.
 .PHONY: integration-tests
