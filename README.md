@@ -14,6 +14,15 @@ curl -XPUT 'http://localhost:9200/_template/nginxbeat' -d@etc/nginxbeat.template
 ```
 
 
+## Kibana dashboard
+
+To load Nginxbeat default Kibana dashboard:
+
+```
+scripts/load.sh -url http://localhost:9200
+```
+
+
 # Build, Test, Run
 
 ```
