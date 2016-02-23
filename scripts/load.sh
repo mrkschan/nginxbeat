@@ -13,7 +13,7 @@ KIBANA_INDEX=".kibana"
 
 print_usage() {
   echo "
-  
+
 Load the dashboards, visualizations and index patterns into the given
 Elasticsearch instance.
 
@@ -82,17 +82,8 @@ esac
 shift 2
 done
 
-DIR=dashboards
+DIR=kibana
 echo "Loading dashboards to ${ELASTICSEARCH} in ${KIBANA_INDEX}"
-
-for file in ${DIR}/search/*.json
-do
-    NAME=`basename ${file} .json`
-    echo "Loading search ${NAME}:"
-    ${CURL} -XPUT ${ELASTICSEARCH}/${KIBANA_INDEX}/search/${NAME} \
-        -d @${file} || exit 1
-    echo
-done
 
 for file in ${DIR}/visualization/*.json
 do
@@ -111,15 +102,3 @@ do
         -d @${file} || exit 1
     echo
 done
-
-for file in ${DIR}/index-pattern/*.json
-do
-    NAME=`awk '$1 == "\"title\":" {gsub(/"/, "", $2); print $2}' ${file}`
-    echo "Loading index pattern ${NAME}:"
-
-    ${CURL} -XPUT ${ELASTICSEARCH}/${KIBANA_INDEX}/index-pattern/${NAME} \
-        -d @${file} || exit 1
-    echo
-done
-
-
