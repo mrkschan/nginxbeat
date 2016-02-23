@@ -1,0 +1,11 @@
+{
+  "title": "Nginx (plus)",
+  "hits": 0,
+  "description": "",
+  "panelsJSON": "[{\"id\":\"Nginx-(plus):-No.-of-Connections\",\"type\":\"visualization\",\"size_x\":6,\"size_y\":2,\"col\":1,\"row\":1},{\"id\":\"Nginx-(plus):-No.-of-Requests\",\"type\":\"visualization\",\"size_x\":6,\"size_y\":2,\"col\":7,\"row\":1}]",
+  "version": 1,
+  "timeRestore": false,
+  "kibanaSavedObjectMeta": {
+    "searchSourceJSON": "{\"filter\":[{\"query\":{\"query_string\":{\"query\":\"*\",\"analyze_wildcard\":true}}}]}"
+  }
+}
