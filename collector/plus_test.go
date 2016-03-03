@@ -90,7 +90,7 @@ func TestPlusCollector(t *testing.T) {
 	}))
 	defer ts1.Close()
 
-	c1 := &PlusCollector{}
+	c1 := NewPlusCollector()
 	u1, _ := url.Parse(ts1.URL)
 	s1, _ := c1.Collect(*u1)
 
@@ -123,7 +123,7 @@ func TestPlusCollector(t *testing.T) {
 	}))
 	defer ts2.Close()
 
-	c2 := &PlusCollector{}
+	c2 := NewPlusCollector()
 	u2, _ := url.Parse(ts2.URL)
 	s2, e2 := c2.Collect(*u2)
 
@@ -136,7 +136,7 @@ func TestPlusCollector(t *testing.T) {
 	}))
 	defer ts3.Close()
 
-	c3 := &PlusCollector{}
+	c3 := NewPlusCollector()
 	u3, _ := url.Parse(ts3.URL)
 	s3, e3 := c3.Collect(*u3)
 

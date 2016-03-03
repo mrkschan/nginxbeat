@@ -55,6 +55,18 @@
 			"Rev": "f3960ab1f9664ecc4e27c78af27cc9063d745a43"
 		},
 		{
+			"ImportPath": "github.com/satori/go.uuid",
+			"Rev": "e673fdd4dea8a7334adbbe7f57b7e4b00bdc5502"
+		},
+		{
+			"ImportPath": "golang.org/x/net/proxy",
+			"Rev": "6acef71eb69611914f7a30939ea9f6e194c78172"
+		},
+		{
+			"ImportPath": "golang.org/x/sys/windows",
+			"Rev": "54535356f1d989a6072b0898d9ddc4dd7009dcd3"
+		},
+		{
 			"ImportPath": "gopkg.in/yaml.v2",
 			"Rev": "53feefa2559fb8dfa8d81baad31be332c97d6c77"
 		}

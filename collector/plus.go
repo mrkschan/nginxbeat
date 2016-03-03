@@ -10,16 +10,17 @@ import (
 
 // PlusCollector is a Collector that collects Nginx Plus status page.
 type PlusCollector struct {
+	http *http.Client
 }
 
 // NewPlusCollector constructs a new PlusCollector.
 func NewPlusCollector() Collector {
-	return &PlusCollector{}
+	return &PlusCollector{http: HTTPClient()}
 }
 
 // Collect Nginx Plus status from given url.
 func (c *PlusCollector) Collect(u url.URL) (map[string]interface{}, error) {
-	res, err := http.Get(u.String())
+	res, err := c.http.Get(u.String())
 	if err != nil {
 		return nil, err
 	}

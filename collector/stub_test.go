@@ -23,7 +23,7 @@ func TestStubCollector(t *testing.T) {
 	}))
 	defer ts1.Close()
 
-	c1 := &StubCollector{}
+	c1 := NewStubCollector()
 	u1, _ := url.Parse(ts1.URL)
 	s1, _ := c1.Collect(*u1)
 
@@ -68,7 +68,7 @@ func TestStubCollector(t *testing.T) {
 	}))
 	defer ts2.Close()
 
-	c2 := &StubCollector{}
+	c2 := NewStubCollector()
 	u2, _ := url.Parse(ts2.URL)
 	s2, _ := c2.Collect(*u2)
 
@@ -91,7 +91,7 @@ func TestStubCollector(t *testing.T) {
 	}))
 	defer ts3.Close()
 
-	c3 := &StubCollector{}
+	c3 := NewStubCollector()
 	u3, _ := url.Parse(ts3.URL)
 	s3, _ := c3.Collect(*u3)
 
@@ -114,7 +114,7 @@ func TestStubCollector(t *testing.T) {
 	}))
 	defer ts4.Close()
 
-	c4 := &StubCollector{}
+	c4 := NewStubCollector()
 	u4, _ := url.Parse(ts4.URL)
 	s4, _ := c4.Collect(*u4)
 
@@ -134,7 +134,7 @@ func TestStubCollector(t *testing.T) {
 	}))
 	defer ts5.Close()
 
-	c5 := &StubCollector{}
+	c5 := NewStubCollector()
 	u5, _ := url.Parse(ts5.URL)
 	s5, e5 := c5.Collect(*u5)
 
