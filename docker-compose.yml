@@ -25,5 +25,7 @@ nginxbeat:
     - .:/go/src/github.com/mrkschan/nginxbeat/
     - ${GOPATH}/src/github.com/elastic/beats:/go/src/github.com/elastic/beats/
     - ${GOPATH}/src/github.com/stretchr/testify:/go/src/github.com/stretchr/testify/
+    - ${GOPATH}/src/github.com/satori/go.uuid:/go/src/github.com/satori/go.uuid/
+    - ${GOPATH}/src/golang.org/x/net/proxy:/go/src/golang.org/x/net/proxy/
   working_dir: /go/src/github.com/mrkschan/nginxbeat/
   command: make

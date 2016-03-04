@@ -13,17 +13,21 @@ import (
 
 // StubCollector is a Collector that collects Nginx stub status page.
 type StubCollector struct {
+	http     *http.Client
 	requests int
 }
 
 // NewStubCollector constructs a new StubCollector.
 func NewStubCollector() Collector {
-	return &StubCollector{requests: 0}
+	return &StubCollector{
+		http:     HTTPClient(),
+		requests: 0,
+	}
 }
 
 // Collect Nginx stub status from given url.
 func (c *StubCollector) Collect(u url.URL) (map[string]interface{}, error) {
-	res, err := http.Get(u.String())
+	res, err := c.http.Get(u.String())
 	if err != nil {
 		return nil, err
 	}

@@ -1,13 +1,30 @@
 package collector
 
 import (
+	"net/http"
 	"net/url"
+	"os"
+
+	"golang.org/x/net/proxy"
 )
 
 // Collector collects status from Nginx status module.
 type Collector interface {
 	// Collect status from the given url.
 	Collect(u url.URL) (map[string]interface{}, error)
+}
+
+// HTTPClient returns a net/http client that respects proxy settings from the
+// environmnent. Supported environmnent variables:
+// "http_proxy", "https_proxy", "all_proxy", and "no_proxy".
+func HTTPClient() *http.Client {
+	if os.Getenv("all_proxy") != "" {
+		return &http.Client{
+			Transport: &http.Transport{Dial: proxy.FromEnvironment().Dial},
+		}
+	}
+
+	return http.DefaultClient
 }
 
 // Ftoi returns a copy of input map where float values are casted to int values.

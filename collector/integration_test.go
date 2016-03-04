@@ -12,7 +12,7 @@ import (
 
 func TestStubCollectorIntegration(t *testing.T) {
 	// It should report stats of Nginx running inside Docker container.
-	c1 := &StubCollector{}
+	c1 := NewStubCollector()
 	u1, _ := url.Parse("http://nginx-19:8080/status")
 	s1, _ := c1.Collect(*u1)
 
@@ -37,7 +37,7 @@ func TestStubCollectorIntegration(t *testing.T) {
 
 func TestPlusCollectorIntegration(t *testing.T) {
 	// It should report stats of Nginx running on demo.nginx.com.
-	c1 := &PlusCollector{}
+	c1 := NewPlusCollector()
 	u1, _ := url.Parse("http://demo.nginx.com/status")
 	s1, _ := c1.Collect(*u1)
 
