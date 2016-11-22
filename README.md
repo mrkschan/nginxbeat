@@ -1,5 +1,13 @@
 [![Build Status](https://travis-ci.org/mrkschan/nginxbeat.svg?branch=travisci-setup)](https://travis-ci.org/mrkschan/nginxbeat)
 
+
+# Deprecation notice
+
+This project is superseded by https://github.com/elastic/beats/tree/master/metricbeat. Development will be continured in Metricbeat Nginx module.
+Nginx stub status is already available in Metricbeat - https://github.com/elastic/beats/pull/1642.
+Nginx plus statis is work in progress - https://github.com/elastic/beats/pull/2329
+
+
 # Nginxbeat
 
 Nginxbeat is the Beat used for Nginx monitoring. It is a lightweight agent that reads status from Nginx periodically. Nginx must either expose its status via stub module (http://nginx.org/en/docs/http/ngx_http_stub_status_module.html) or Nginx Plus status module (http://nginx.org/en/docs/http/ngx_http_status_module.html).
